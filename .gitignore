@@ -9,7 +9,7 @@ artifacts/
 typechain-types/
 out/
 cache_forge/
-lib/
+# lib/
 pnpm-lock.yaml
 
 # Ignores development broadcast logs
