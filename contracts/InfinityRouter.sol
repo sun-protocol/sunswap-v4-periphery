@@ -4,7 +4,6 @@ pragma solidity ^0.8.24;
 
 import {IVault} from "infinity-core/src/interfaces/IVault.sol";
 import {ICLPoolManager} from "infinity-core/src/pool-cl/interfaces/ICLPoolManager.sol";
-import {IBinPoolManager} from "infinity-core/src/pool-bin/interfaces/IBinPoolManager.sol";
 import {Currency} from "infinity-core/src/types/Currency.sol";
 import {BipsLibrary} from "./libraries/BipsLibrary.sol";
 import {CalldataDecoder} from "./libraries/CalldataDecoder.sol";
@@ -13,9 +12,7 @@ import {BaseActionsRouter} from "./base/BaseActionsRouter.sol";
 import {DeltaResolver} from "./base/DeltaResolver.sol";
 import {Actions} from "./libraries/Actions.sol";
 import {CLCalldataDecoder} from "./pool-cl/libraries/CLCalldataDecoder.sol";
-import {BinCalldataDecoder} from "./pool-bin/libraries/BinCalldataDecoder.sol";
 import {CLRouterBase} from "./pool-cl/CLRouterBase.sol";
-import {BinRouterBase} from "./pool-bin/BinRouterBase.sol";
 
 /// @title InfinityRouter
 /// @notice Abstract contract that contains all internal logic needed for routing through Pancakeswap infinity pools
