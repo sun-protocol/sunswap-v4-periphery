@@ -4,9 +4,9 @@ pragma solidity 0.8.26;
 
 import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
 import {PoolId} from "infinity-core/src/types/PoolId.sol";
-import {ICLPoolManager} from "infinity-core/src/pool-cl/interfaces/ICLPoolManager.sol";
-import {CLPoolParametersHelper} from "infinity-core/src/pool-cl/libraries/CLPoolParametersHelper.sol";
-import {Tick} from "infinity-core/src/pool-cl/libraries/Tick.sol";
+import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
+import {CLPoolParametersHelper} from "infinity-core/src/libraries/CLPoolParametersHelper.sol";
+import {Tick} from "infinity-core/src/libraries/Tick.sol";
 import {ITickLens} from "../interfaces/ITickLens.sol";
 
 /// @title Tick Lens contract

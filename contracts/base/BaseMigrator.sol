@@ -9,14 +9,14 @@ import {IV3NonfungiblePositionManager} from "../interfaces/external/IV3Nonfungib
 import {IWETH9} from "../interfaces/external/IWETH9.sol";
 import {Multicall} from "./Multicall.sol";
 import {Currency, CurrencyLibrary} from "infinity-core/src/types/Currency.sol";
-import {Owner} from "infinity-core/src/Owner.sol";
+import {Ownable} from "infinity-core/src/base/Ownable.sol";
 import {SelfPermitERC721} from "./SelfPermitERC721.sol";
 import {IBaseMigrator} from "../interfaces/IBaseMigrator.sol";
 import {IPositionManagerPermit2} from "../interfaces/IPositionManagerPermit2.sol";
 import {IAllowanceTransfer} from "permit2/src/interfaces/IAllowanceTransfer.sol";
 import {Permit2Forwarder} from "./Permit2Forwarder.sol";
 
-contract BaseMigrator is IBaseMigrator, Permit2Forwarder, Multicall, SelfPermitERC721, Owner {
+contract BaseMigrator is IBaseMigrator, Permit2Forwarder, Multicall, SelfPermitERC721, Ownable {
     using SafeCast for uint256;
     using SafeTransferLib for ERC20;
 
@@ -25,7 +25,7 @@ contract BaseMigrator is IBaseMigrator, Permit2Forwarder, Multicall, SelfPermitE
 
     /// @notice Theoretically, it is possible that permit2 of positionManager is not the same as the permit2 in migrator
     /// @dev So let us keep positionManagerPermit2 and permit2 in migrator as separate variables
-    constructor(address _WETH9, address _positionManager, IAllowanceTransfer _permit2) Permit2Forwarder(_permit2) {
+    constructor(address _WETH9, address _positionManager, IAllowanceTransfer _permit2) Permit2Forwarder(_permit2) Ownable(msg.sender) {
         WETH9 = _WETH9;
         positionManagerPermit2 = IPositionManagerPermit2(_positionManager).permit2();
     }

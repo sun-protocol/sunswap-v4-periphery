@@ -2,8 +2,8 @@
 // Copyright (C) 2024 PancakeSwap
 pragma solidity 0.8.26;
 
-import {TickMath} from "infinity-core/src/pool-cl/libraries/TickMath.sol";
-import {ICLPoolManager} from "infinity-core/src/pool-cl/interfaces/ICLPoolManager.sol";
+import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
+import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
 import {BalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
 import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
 import {PoolId} from "infinity-core/src/types/PoolId.sol";

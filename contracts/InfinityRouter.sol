@@ -3,7 +3,7 @@
 pragma solidity ^0.8.24;
 
 import {IVault} from "infinity-core/src/interfaces/IVault.sol";
-import {ICLPoolManager} from "infinity-core/src/pool-cl/interfaces/ICLPoolManager.sol";
+import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
 import {Currency} from "infinity-core/src/types/Currency.sol";
 import {BipsLibrary} from "./libraries/BipsLibrary.sol";
 import {CalldataDecoder} from "./libraries/CalldataDecoder.sol";
@@ -18,16 +18,14 @@ import {CLRouterBase} from "./pool-cl/CLRouterBase.sol";
 /// @notice Abstract contract that contains all internal logic needed for routing through Pancakeswap infinity pools
 /// @dev the entry point to executing actions in this contract is calling `BaseActionsRouter._executeActions`
 /// An inheriting contract should call _executeActions at the point that they wish actions to be executed
-abstract contract InfinityRouter is IInfinityRouter, CLRouterBase, BinRouterBase, BaseActionsRouter {
+abstract contract InfinityRouter is IInfinityRouter, CLRouterBase, BaseActionsRouter {
     using BipsLibrary for uint256;
     using CalldataDecoder for bytes;
     using CLCalldataDecoder for bytes;
-    using BinCalldataDecoder for bytes;
 
-    constructor(IVault _vault, ICLPoolManager _clPoolManager, IBinPoolManager _binPoolManager)
+    constructor(IVault _vault, ICLPoolManager _clPoolManager)
         BaseActionsRouter(_vault)
         CLRouterBase(_clPoolManager)
-        BinRouterBase(_binPoolManager)
     {}
 
     function _handleAction(uint256 action, bytes calldata params) internal override {
@@ -49,26 +47,6 @@ abstract contract InfinityRouter is IInfinityRouter, CLRouterBase, BinRouterBase
             } else if (action == Actions.CL_SWAP_EXACT_OUT_SINGLE) {
                 IInfinityRouter.CLSwapExactOutputSingleParams calldata swapParams =
                     params.decodeCLSwapExactOutSingleParams();
-                _swapExactOutputSingle(swapParams);
-                return;
-            }
-        } else if (action > Actions.BURN_6909) {
-            if (action == Actions.BIN_SWAP_EXACT_IN) {
-                IInfinityRouter.BinSwapExactInputParams calldata swapParams = params.decodeBinSwapExactInParams();
-                _swapExactInput(swapParams);
-                return;
-            } else if (action == Actions.BIN_SWAP_EXACT_IN_SINGLE) {
-                IInfinityRouter.BinSwapExactInputSingleParams calldata swapParams =
-                    params.decodeBinSwapExactInSingleParams();
-                _swapExactInputSingle(swapParams);
-                return;
-            } else if (action == Actions.BIN_SWAP_EXACT_OUT) {
-                IInfinityRouter.BinSwapExactOutputParams calldata swapParams = params.decodeBinSwapExactOutParams();
-                _swapExactOutput(swapParams);
-                return;
-            } else if (action == Actions.BIN_SWAP_EXACT_OUT_SINGLE) {
-                IInfinityRouter.BinSwapExactOutputSingleParams calldata swapParams =
-                    params.decodeBinSwapExactOutSingleParams();
                 _swapExactOutputSingle(swapParams);
                 return;
             }

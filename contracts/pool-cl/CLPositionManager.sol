@@ -5,8 +5,8 @@ pragma solidity 0.8.26;
 import {IVault} from "infinity-core/src/interfaces/IVault.sol";
 import {Currency, CurrencyLibrary} from "infinity-core/src/types/Currency.sol";
 import {BalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {ICLPoolManager} from "infinity-core/src/pool-cl/interfaces/ICLPoolManager.sol";
-import {CLPosition} from "infinity-core/src/pool-cl/libraries/CLPosition.sol";
+import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
+import {CLPosition} from "infinity-core/src/libraries/CLPosition.sol";
 import {SafeCast} from "infinity-core/src/libraries/SafeCast.sol";
 import {IAllowanceTransfer} from "permit2/src/interfaces/IAllowanceTransfer.sol";
 import {PoolIdLibrary} from "infinity-core/src/types/PoolId.sol";
@@ -31,7 +31,7 @@ import {ICLPositionDescriptor} from "./interfaces/ICLPositionDescriptor.sol";
 import {NativeWrapper} from "../base/NativeWrapper.sol";
 import {IWETH9} from "../interfaces/external/IWETH9.sol";
 import {LiquidityAmounts} from "../pool-cl/libraries/LiquidityAmounts.sol";
-import {TickMath} from "infinity-core/src/pool-cl/libraries/TickMath.sol";
+import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
 
 /// @title CLPositionManager
 /// @notice Contract for modifying liquidity for PCS Infinity CL pools

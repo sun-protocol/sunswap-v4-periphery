@@ -3,7 +3,7 @@ pragma solidity ^0.8.24;
 
 import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
 import {BalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {ICLPoolManager} from "infinity-core/src/pool-cl/interfaces/ICLPoolManager.sol";
+import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
 import {IPositionManager} from "../../interfaces/IPositionManager.sol";
 import {CLPositionInfo} from "../libraries/CLPositionInfoLibrary.sol";
 import {ICLSubscriber} from "./ICLSubscriber.sol";
