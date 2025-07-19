@@ -3,9 +3,9 @@
 pragma solidity ^0.8.0;
 
 import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {Actions} from "../../src/libraries/Actions.sol";
+import {Actions} from "./Actions.sol";
 import {Currency} from "infinity-core/src/types/Currency.sol";
-import {ActionConstants} from "../../src/libraries/ActionConstants.sol";
+import {ActionConstants} from "./ActionConstants.sol";
 
 struct Plan {
     bytes actions;
