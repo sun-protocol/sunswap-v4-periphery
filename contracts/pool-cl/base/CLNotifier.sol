@@ -75,8 +75,8 @@ abstract contract CLNotifier is ICLNotifier {
             // require that the remaining gas is sufficient to notify the subscriber
             // otherwise, users can select a gas limit where .notifyUnsubscribe hits OutOfGas yet the
             // transaction/unsubscription can still succeed
-            if (gasleft() < unsubscribeGasLimit) revert GasLimitTooLow();
-            try _subscriber.notifyUnsubscribe{gas: unsubscribeGasLimit}(tokenId) {} catch {}
+            // if (gasleft() < unsubscribeGasLimit) revert GasLimitTooLow();
+            try _subscriber.notifyUnsubscribe(tokenId) {} catch {}
         }
 
         emit Unsubscription(tokenId, address(_subscriber));
