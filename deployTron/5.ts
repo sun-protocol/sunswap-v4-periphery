@@ -14,16 +14,14 @@ module.exports = async ({
   // uint256 _unsubscribeGasLimit,
   // ICLPositionDescriptor _tokenDescriptor,
   // IWETH9 _weth9
-  const res = await deploy('CLPositionManager', {
+  const res = await deploy('InfinityRouter', {
     from: deployer,
     gasLimit: 4000000,
-    args: ['0xD033B0fD1B38D9a8f04a8C2Adc55b91c288930b1','0xD033B0fD1B38D9a8f04a8C2Adc55b91c288930b1','0xF62F506D1FAA02E2354A9886B4A200496EE96F4B',0,'0x2B8153F2B5B3D181747689D4638859E538E1B52D',
-    '0xFB3B3134F13CCD2C81F4012E53024E8135D58FEE'
-    ],//
-    tags: 'lumi2',
+    args: ['0xD033B0fD1B38D9a8f04a8C2Adc55b91c288930b1','0xD033B0fD1B38D9a8f04a8C2Adc55b91c288930b1'],//
+    tags: 'lumi5',
   });
   console.log(res)
 };
 
 
-module.exports.tags = ['lumi2'];
+module.exports.tags = ['lumi5'];

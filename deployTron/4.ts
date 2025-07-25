@@ -8,14 +8,20 @@ module.exports = async ({
   const {deployer} = await getNamedAccounts();
 
   // the following will only deploy "GenericMetaTxProcessor" if the contract was never deployed or if the code changed since last deployment
-  const res = await deploy('CLPositionDescriptorOffChain', {
+  // IVault _vault,
+  // ICLPoolManager _clPoolManager,
+  // IAllowanceTransfer _permit2,
+  // uint256 _unsubscribeGasLimit,
+  // ICLPositionDescriptor _tokenDescriptor,
+  // IWETH9 _weth9
+  const res = await deploy('TickLens', {
     from: deployer,
-    gasLimit: 400000000,
-    args: ["sun.io/v4/"],
-    tags: 'lumi',
+    gasLimit: 4000000,
+    args: ['0xD033B0fD1B38D9a8f04a8C2Adc55b91c288930b1'],//
+    tags: 'lumi4',
   });
   console.log(res)
 };
 
 
-module.exports.tags = ['lumi'];
+module.exports.tags = ['lumi4'];

@@ -18,7 +18,11 @@
     "compile-tron": "hardhat compile --network tron --verbose --force",
     "deploy": "npx hardhat --network localhost deploy",
     "deploy-sepolia": "npx hardhat --network sepolia deploy",
-    "deploy-tron": "npx hardhat --network tron deploy --tags lumi"
+    "deploy-tron": "npx hardhat --network tron deploy --tags lumi",
+    "deploy-tron2": "npx hardhat --network tron deploy --tags lumi2",
+    "deploy-tron3": "npx hardhat --network tron deploy --tags lumi3",
+    "deploy-tron4": "npx hardhat --network tron deploy --tags lumi4",
+    "deploy-tron5": "npx hardhat --network tron deploy --tags lumi5"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
