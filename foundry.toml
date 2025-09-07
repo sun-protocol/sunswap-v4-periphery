@@ -1,4 +1,5 @@
 [profile.default]
+bytecode_size_limit = 100_000
 src = 'contracts'
 out = 'out'
 libs = ['node_modules', 'lib']
@@ -16,7 +17,7 @@ fs_permissions = [
     { access = "read", path = "./foundry-out" },
     { access = "read", path = "./script/config" },
     { access = "read", path = "./test/pool-cl/bin" },
-    { access = "read", path = "./test/pool-bin/bin" },
+    { access = "read", path = "./test/bin" },
 ]
 gas_limit = "300000000"
 

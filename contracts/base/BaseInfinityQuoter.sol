@@ -12,7 +12,7 @@ import {IPoolManager} from "../interfaces/IPoolManager.sol";
 abstract contract BaseInfinityQuoter is SafeCallback, IQuoter {
     using QuoterRevert for bytes;
 
-    constructor(address _poolManager) SafeCallback(IPoolManager(_poolManager).vault()) {}
+    constructor(address _poolManager) SafeCallback(IVault(_poolManager)) {}
 
     /// @dev Only this address may call this function. Used to mimic internal functions, using an
     /// external call to catch and parse revert reasons

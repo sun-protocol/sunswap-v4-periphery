@@ -34,6 +34,6 @@ library PathKeyLibrary {
             : (params.intermediateCurrency, currencyIn);
 
         zeroForOne = currencyIn == currency0;
-        poolKey = PoolKey(currency0, currency1, params.hooks, params.poolManager, params.fee, params.parameters);
+        poolKey = PoolKey(currency0, currency1, params.hooks, params.fee, params.parameters);
     }
 }

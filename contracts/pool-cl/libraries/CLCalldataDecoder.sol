@@ -41,7 +41,7 @@ library CLCalldataDecoder {
         assembly ("memory-safe") {
             // only safety checks for the minimum length, where hookData is empty
             // 0x160 = 11 * 0x20 -> 9 elements, bytes offset, and bytes length 0
-            if lt(params.length, 0x160) {
+            if lt(params.length, 0x140) {
                 mstore(0, SLICE_ERROR_SELECTOR)
                 revert(0x1c, 4)
             }
@@ -77,7 +77,7 @@ library CLCalldataDecoder {
         assembly ("memory-safe") {
             // only safety checks for the minimum length, where hookData is empty
             // 0x160 = 9 * 0x20 -> 9 elements, bytes offset, and bytes length 0
-            if lt(params.length, 0x160) {
+            if lt(params.length, 0x140) {
                 mstore(0, SLICE_ERROR_SELECTOR)
                 revert(0x1c, 4)
             }
@@ -136,14 +136,14 @@ library CLCalldataDecoder {
         // length validation is already handled in `params.toBytes`
         assembly ("memory-safe") {
             poolKey := params.offset
-            tickLower := calldataload(add(params.offset, 0xc0))
-            tickUpper := calldataload(add(params.offset, 0xe0))
-            liquidity := calldataload(add(params.offset, 0x100))
-            amount0Max := calldataload(add(params.offset, 0x120))
-            amount1Max := calldataload(add(params.offset, 0x140))
-            owner := calldataload(add(params.offset, 0x160))
+            tickLower := calldataload(add(params.offset, 0xa0))
+            tickUpper := calldataload(add(params.offset, 0xc0))
+            liquidity := calldataload(add(params.offset, 0xe0))
+            amount0Max := calldataload(add(params.offset, 0x100))
+            amount1Max := calldataload(add(params.offset, 0x120))
+            owner := calldataload(add(params.offset, 0x140))
         }
-        hookData = params.toBytes(12);
+        hookData = params.toBytes(11);
     }
 
     /// @dev equivalent to: abi.decode(params, (PoolKey, int24, int24, uint128, uint128, address, bytes)) in calldata
@@ -163,14 +163,14 @@ library CLCalldataDecoder {
         // length validation is already handled in `params.toBytes`
         assembly ("memory-safe") {
             poolKey := params.offset
-            tickLower := calldataload(add(params.offset, 0xc0))
-            tickUpper := calldataload(add(params.offset, 0xe0))
-            amount0Max := calldataload(add(params.offset, 0x100))
-            amount1Max := calldataload(add(params.offset, 0x120))
-            owner := calldataload(add(params.offset, 0x140))
+            tickLower := calldataload(add(params.offset, 0xa0))
+            tickUpper := calldataload(add(params.offset, 0xc0))
+            amount0Max := calldataload(add(params.offset, 0xe0))
+            amount1Max := calldataload(add(params.offset, 0x100))
+            owner := calldataload(add(params.offset, 0x120))
         }
 
-        hookData = params.toBytes(11);
+        hookData = params.toBytes(10);
     }
 
     /// @dev equivalent to: abi.decode(params, (uint256, uint128, uint128, bytes)) in calldata

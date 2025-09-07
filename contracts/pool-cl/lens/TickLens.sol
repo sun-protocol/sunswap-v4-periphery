@@ -4,7 +4,7 @@ pragma solidity 0.8.26;
 
 import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
 import {PoolId} from "infinity-core/src/types/PoolId.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
+import {PoolManager} from "infinity-core/src/PoolManager.sol";
 import {CLPoolParametersHelper} from "infinity-core/src/libraries/CLPoolParametersHelper.sol";
 import {Tick} from "infinity-core/src/libraries/Tick.sol";
 import {ITickLens} from "../interfaces/ITickLens.sol";
@@ -13,9 +13,9 @@ import {ITickLens} from "../interfaces/ITickLens.sol";
 contract TickLens is ITickLens {
     using CLPoolParametersHelper for bytes32;
 
-    ICLPoolManager public immutable poolManager;
+    PoolManager public immutable poolManager;
 
-    constructor(ICLPoolManager _poolManager) {
+    constructor(PoolManager _poolManager) {
         poolManager = _poolManager;
     }
 
@@ -37,7 +37,7 @@ contract TickLens is ITickLens {
         returns (PopulatedTick[] memory populatedTicks)
     {
         // retrieve tickSpacing
-        (,,,,, bytes32 poolParams) = poolManager.poolIdToPoolKey(id);
+        (,,,,bytes32 poolParams) = poolManager.poolIdToPoolKey(id);
         int24 tickSpacing = poolParams.getTickSpacing();
 
         // check if pool is initialized
