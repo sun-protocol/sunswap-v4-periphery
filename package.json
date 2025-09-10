@@ -22,7 +22,8 @@
     "deploy-tron2": "npx hardhat --network tron deploy --tags lumi2",
     "deploy-tron3": "npx hardhat --network tron deploy --tags lumi3",
     "deploy-tron4": "npx hardhat --network tron deploy --tags lumi4",
-    "deploy-tron5": "npx hardhat --network tron deploy --tags lumi5"
+    "deploy-tron5": "npx hardhat --network tron deploy --tags lumi5",
+    "deploy-tron6": "npx hardhat --network tron deploy --tags lumi6"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
