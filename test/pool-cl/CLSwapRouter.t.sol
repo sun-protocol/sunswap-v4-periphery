@@ -242,7 +242,6 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
             parameters: bytes32(uint256(0x10000))
         });
         path[1] = PathKey({
@@ -250,7 +249,6 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
             parameters: bytes32(uint256(0x10000))
         });
 
@@ -276,7 +274,6 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
             parameters: bytes32(uint256(0x10000))
         });
         path[1] = PathKey({
@@ -284,7 +281,6 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
             parameters: bytes32(uint256(0x10000))
         });
 
@@ -305,7 +301,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
+           
             parameters: bytes32(uint256(0x10000))
         });
         path[1] = PathKey({
@@ -313,7 +309,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
+           
             parameters: bytes32(uint256(0x10000))
         });
 
@@ -433,7 +429,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
+           
             parameters: bytes32(uint256(0x10000))
         });
         path[1] = PathKey({
@@ -441,7 +437,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
+           
             parameters: bytes32(uint256(0x10000))
         });
 
@@ -472,7 +468,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: poolKey0.fee,
             hooks: poolKey0.hooks,
             hookData: new bytes(0),
-            poolManager: poolManager,
+           
             parameters: poolKey0.parameters
         });
 
@@ -513,7 +509,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
+           
             parameters: bytes32(uint256(0x10000))
         });
         path[1] = PathKey({
@@ -521,7 +517,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
+           
             parameters: bytes32(uint256(0x10000))
         });
 
@@ -541,7 +537,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
+           
             parameters: bytes32(uint256(0x10000))
         });
         path[1] = PathKey({
@@ -549,7 +545,6 @@ contract CLSwapRouterTest is TokenFixture, Test {
             fee: uint24(3000),
             hooks: IHooks(address(0)),
             hookData: new bytes(0),
-            poolManager: poolManager,
             parameters: bytes32(uint256(0x10000))
         });
 

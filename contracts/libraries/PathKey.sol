@@ -11,7 +11,6 @@ struct PathKey {
     Currency intermediateCurrency;
     uint24 fee;
     IHooks hooks;
-    IPoolManager poolManager;
     bytes hookData;
     bytes32 parameters;
 }

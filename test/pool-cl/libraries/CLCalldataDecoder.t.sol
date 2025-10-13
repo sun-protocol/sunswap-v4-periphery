@@ -282,7 +282,6 @@ contract CLCalldataDecoderTest is Test {
             assertEq(Currency.unwrap(path1[i].intermediateCurrency), Currency.unwrap(path2[i].intermediateCurrency));
             assertEq(path1[i].fee, path2[i].fee);
             assertEq(address(path1[i].hooks), address(path2[i].hooks));
-            assertEq(address(path1[i].poolManager), address(path2[i].poolManager));
             assertEq(path1[i].hookData, path2[i].hookData);
             assertEq(path1[i].parameters, path2[i].parameters);
         }

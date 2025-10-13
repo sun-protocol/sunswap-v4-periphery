@@ -546,7 +546,6 @@ contract CLQuoterTest is Test, Deployers {
                 Currency.wrap(address(_tokenPath[i + 1])),
                 3000,
                 IHooks(address(0)),
-                ICLPoolManager(manager),
                 bytes(""),
                 bytes32(uint256(0x3c0000))
             );
@@ -568,7 +567,6 @@ contract CLQuoterTest is Test, Deployers {
                 Currency.wrap(address(_tokenPath[i - 1])),
                 3000,
                 IHooks(address(0)),
-                ICLPoolManager(manager),
                 bytes(""),
                 bytes32(uint256(0x3c0000))
             );
