@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 import {Test} from "forge-std/Test.sol";
 import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import {OldVersionHelper} from "./helpers/OldVersionHelper.sol";
-import {IPancakePair} from "../src/interfaces/external/IPancakePair.sol";
+import {ISunSwapPair} from "../src/interfaces/external/ISunSwapPair.sol";
 import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {CLPositionManager} from "../src/pool-cl/CLPositionManager.sol";
@@ -27,8 +27,8 @@ import {MixedQuoter} from "../src/MixedQuoter.sol";
 import {IQuoter} from "../src/interfaces/IQuoter.sol";
 import {ICLQuoter} from "../src/pool-cl/interfaces/ICLQuoter.sol";
 import {MixedQuoterActions} from "../src/libraries/MixedQuoterActions.sol";
-import {IPancakeFactory} from "../src/interfaces/external/IPancakeFactory.sol";
-import {IPancakeV3Factory} from "../src/interfaces/external/IPancakeV3Factory.sol";
+import {ISunSwapFactory} from "../src/interfaces/external/ISunSwapFactory.sol";
+import {ISunSwapV3Factory} from "../src/interfaces/external/ISunSwapV3Factory.sol";
 import {ICLQuoter} from "../src/pool-cl/interfaces/ICLQuoter.sol";
 import {CLQuoter} from "../src/pool-cl/lens/CLQuoter.sol";
 import {Plan, Planner} from "../src/libraries/Planner.sol";
@@ -42,7 +42,7 @@ import {ICLRouterBase} from "../src/pool-cl/interfaces/ICLRouterBase.sol";
 import {ActionConstants} from "../src/libraries/ActionConstants.sol";
 import {V3SmartRouterHelper} from "../src/libraries/external/V3SmartRouterHelper.sol";
 import {MixedQuoterRecorder} from "../src/libraries/MixedQuoterRecorder.sol";
-import {PancakeV3Router} from "./helpers/PancakeV3Router.sol";
+import {SunSwapV3Router} from "./helpers/SunSwapV3Router.sol";
 
 contract MixedQuoterTest is
     Test,
@@ -72,14 +72,14 @@ contract MixedQuoterTest is
     IVault vault;
     PoolManager poolManager;
 
-    IPancakeFactory v2Factory;
-    IPancakePair v2Pair;
-    IPancakePair v2PairWithoutNativeToken;
+    ISunSwapFactory v2Factory;
+    ISunSwapPair v2Pair;
+    ISunSwapPair v2PairWithoutNativeToken;
 
     address v3Deployer;
-    IPancakeV3Factory v3Factory;
+    ISunSwapV3Factory v3Factory;
     IV3NonfungiblePositionManager v3Nfpm;
-    PancakeV3Router v3Router;
+    SunSwapV3Router v3Router;
 
     IStableSwapFactory stableSwapFactory;
     IStableSwap stableSwapPair;
@@ -148,14 +148,14 @@ contract MixedQuoterTest is
         token4.mint(address(this), 10000 ether);
         token5.mint(address(this), 10000 ether);
 
-        v2Factory = IPancakeFactory(createContractThroughBytecode(_getBytecodePath()));
-        v2Pair = IPancakePair(v2Factory.createPair(address(weth), address(token2)));
-        v2PairWithoutNativeToken = IPancakePair(v2Factory.createPair(address(token2), address(token3)));
+        v2Factory = ISunSwapFactory(createContractThroughBytecode(_getBytecodePath()));
+        v2Pair = ISunSwapPair(v2Factory.createPair(address(weth), address(token2)));
+        v2PairWithoutNativeToken = ISunSwapPair(v2Factory.createPair(address(token2), address(token3)));
 
         // pcs v3
         if (bytes(_getDeployerBytecodePath()).length != 0) {
             v3Deployer = createContractThroughBytecode(_getDeployerBytecodePath());
-            v3Factory = IPancakeV3Factory(
+            v3Factory = ISunSwapV3Factory(
                 createContractThroughBytecode(_getFactoryBytecodePath(), toBytes32(address(v3Deployer)))
             );
             (bool success,) = v3Deployer.call(abi.encodeWithSignature("setFactoryAddress(address)", address(v3Factory)));
@@ -170,7 +170,7 @@ contract MixedQuoterTest is
                 )
             );
         } else {
-            v3Factory = IPancakeV3Factory(createContractThroughBytecode(_getFactoryBytecodePath()));
+            v3Factory = ISunSwapV3Factory(createContractThroughBytecode(_getFactoryBytecodePath()));
 
             v3Nfpm = IV3NonfungiblePositionManager(
                 createContractThroughBytecode(
@@ -179,7 +179,7 @@ contract MixedQuoterTest is
             );
         }
 
-        v3Router = new PancakeV3Router(v3Factory);
+        v3Router = new SunSwapV3Router(v3Factory);
 
         // make sure v3Nfpm has allowance
         weth.approve(address(v3Nfpm), type(uint256).max);
@@ -657,7 +657,7 @@ contract MixedQuoterTest is
         assertEq(amountOutOfRoute2, swapPath2Output);
 
         // swap 0.3 ether in v3 pool
-        PancakeV3Router.ExactInputSingleParams memory swapParams1 = PancakeV3Router.ExactInputSingleParams({
+        SunSwapV3Router.ExactInputSingleParams memory swapParams1 = SunSwapV3Router.ExactInputSingleParams({
             tokenIn: address(weth),
             tokenOut: address(token2),
             fee: fee,
@@ -674,7 +674,7 @@ contract MixedQuoterTest is
         assertEq(route1TokenOutBalanceAfter - route1TokenOutBalanceBefore, amountOutOfRoute1);
 
         //swap 0.7 ether in v3 pool
-        PancakeV3Router.ExactInputSingleParams memory swapParams2 = PancakeV3Router.ExactInputSingleParams({
+        SunSwapV3Router.ExactInputSingleParams memory swapParams2 = SunSwapV3Router.ExactInputSingleParams({
             tokenIn: address(weth),
             tokenOut: address(token2),
             fee: fee,
@@ -733,7 +733,7 @@ contract MixedQuoterTest is
         } else {
             route1TokenOutBalanceBefore = token0OfV3.balanceOf(address(this));
         }
-        PancakeV3Router.ExactInputSingleParams memory swapParams1 = PancakeV3Router.ExactInputSingleParams({
+        SunSwapV3Router.ExactInputSingleParams memory swapParams1 = SunSwapV3Router.ExactInputSingleParams({
             tokenIn: isZeroForOne ? address(token0OfV3) : address(token1OfV3),
             tokenOut: isZeroForOne ? address(token1OfV3) : address(token0OfV3),
             fee: fee,
@@ -758,7 +758,7 @@ contract MixedQuoterTest is
         } else {
             route2TokenOutBalanceBefore = token0OfV3.balanceOf(address(this));
         }
-        PancakeV3Router.ExactInputSingleParams memory swapParams2 = PancakeV3Router.ExactInputSingleParams({
+        SunSwapV3Router.ExactInputSingleParams memory swapParams2 = SunSwapV3Router.ExactInputSingleParams({
             tokenIn: isZeroForOne ? address(token0OfV3) : address(token1OfV3),
             tokenOut: isZeroForOne ? address(token1OfV3) : address(token0OfV3),
             fee: fee,
@@ -1125,7 +1125,7 @@ contract MixedQuoterTest is
 
         // swap route1Token2Received in v3 pool
         uint256 route1WethBalanceBefore = weth.balanceOf(address(this));
-        PancakeV3Router.ExactInputSingleParams memory swapParams2 = PancakeV3Router.ExactInputSingleParams({
+        SunSwapV3Router.ExactInputSingleParams memory swapParams2 = SunSwapV3Router.ExactInputSingleParams({
             tokenIn: address(token2),
             tokenOut: address(weth),
             fee: fee,
@@ -1331,14 +1331,14 @@ contract MixedQuoterTest is
         v3Nfpm.mint(mintParams);
     }
 
-    function _mintV2Liquidity(IPancakePair pair) public {
+    function _mintV2Liquidity(ISunSwapPair pair) public {
         IERC20(pair.token0()).transfer(address(pair), 10 ether);
         IERC20(pair.token1()).transfer(address(pair), 10 ether);
 
         pair.mint(address(this));
     }
 
-    function _mintV2Liquidity(IPancakePair pair, uint256 amount0, uint256 amount1) public {
+    function _mintV2Liquidity(ISunSwapPair pair, uint256 amount0, uint256 amount1) public {
         IERC20(pair.token0()).transfer(address(pair), amount0);
         IERC20(pair.token1()).transfer(address(pair), amount1);
 
@@ -1347,7 +1347,7 @@ contract MixedQuoterTest is
 
     function _swapV2(address tokenIn, address tokenOut, uint256 amountIn) internal returns (uint256) {
         (address v2Token0, address v2Token1) = tokenIn < tokenOut ? (tokenIn, tokenOut) : (tokenOut, tokenIn);
-        IPancakePair pair = IPancakePair(v2Factory.getPair(v2Token0, v2Token1));
+        ISunSwapPair pair = ISunSwapPair(v2Factory.getPair(v2Token0, v2Token1));
         require(address(pair) != address(0), "Pair doesn't exist");
 
         IERC20(tokenIn).transfer(address(pair), amountIn);
@@ -1362,7 +1362,7 @@ contract MixedQuoterTest is
     }
 
     function _getBytecodePath() internal pure returns (string memory) {
-        // Create a Pancakeswap V2 pair
+        // Create a SunSwap V2 pair
         // relative to the root of the project
         // https://etherscan.io/address/0x1097053Fd2ea711dad45caCcc45EfF7548fCB362#code
         return "./test/bin/pcsV2Factory.bytecode";

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2024 PancakeSwap
+// Copyright (C) 2025 SunSwap
 pragma solidity 0.8.26;
 
 import {IVault} from "infinity-core/src/interfaces/IVault.sol";
@@ -73,7 +73,7 @@ contract CLPositionManager is
     )
         BaseActionsRouter(_vault)
         Permit2Forwarder(_permit2)
-        ERC721Permit("Pancakeswap Infinity Positions NFT", "PCS-INFINITY-POSM")
+        ERC721Permit("SunSwap V4 Positions NFT", "SUN-SWAP-V4-POSM")
         CLNotifier(_unsubscribeGasLimit)
         NativeWrapper(_weth9)
     {

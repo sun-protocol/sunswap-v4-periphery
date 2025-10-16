@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity ^0.8.0;
 
-import {IPancakeV3Pool} from "../../interfaces/external/IPancakeV3Pool.sol";
+import {ISunSwapV3Pool} from "../../interfaces/external/ISunSwapV3Pool.sol";
 
-/// @dev Copy from https://github.com/pancakeswap/pancake-v3-contracts/blob/main/projects/router/contracts/libraries/PoolTicksCounter.sol
+
 library V3PoolTicksCounter {
     /// @dev This function counts the number of initialized ticks that would incur a gas cost between tickBefore and tickAfter.
     /// When tickBefore and/or tickAfter themselves are initialized, the logic over whether we should count them depends on the
     /// direction of the swap. If we are swapping upwards (tickAfter > tickBefore) we don't want to count tickBefore but we do
     /// want to count tickAfter. The opposite is true if we are swapping downwards.
-    function countInitializedTicksCrossed(IPancakeV3Pool self, int24 tickBefore, int24 tickAfter)
+    function countInitializedTicksCrossed(ISunSwapV3Pool self, int24 tickBefore, int24 tickAfter)
         internal
         view
         returns (uint32 initializedTicksCrossed)

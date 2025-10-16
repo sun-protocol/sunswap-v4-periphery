@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity ^0.8.0;
 
-/// @title IPancakeV3Pool
-/// @notice Interface for the PancakeV3Pool contract
-interface IPancakeV3Pool {
+/// @title ISunSwapV3Pool
+/// @notice Interface for the SunSwapV3Pool contract
+interface ISunSwapV3Pool {
     /// @notice The 0th storage slot in the pool stores many values, and is exposed as a single method to save gas
     /// when accessed externally.
     /// @return sqrtPriceX96 The current price of the pool as a sqrt(token1/token0) Q64.96 value
@@ -41,7 +41,7 @@ interface IPancakeV3Pool {
     function tickBitmap(int16 wordPosition) external view returns (uint256);
 
     /// @notice Swap token0 for token1, or token1 for token0
-    /// @dev The caller of this method receives a callback in the form of IPancakeV3SwapCallback#pancakeV3SwapCallback
+    /// @dev The caller of this method receives a callback in the form of ISunSwapV3SwapCallback#pancakeV3SwapCallback
     /// @param recipient The address to receive the output of the swap
     /// @param zeroForOne The direction of the swap, true for token0 to token1, false for token1 to token0
     /// @param amountSpecified The amount of the swap, which implicitly configures the swap as exact input (positive), or exact output (negative)

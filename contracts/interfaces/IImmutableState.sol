@@ -6,6 +6,6 @@ import {IVault} from "infinity-core/src/interfaces/IVault.sol";
 /// @title IImmutableState
 /// @notice Interface for the ImmutableState contract
 interface IImmutableState {
-    /// @notice The Pancakeswap Infinity Vault contract
+    /// @notice The SunSwap V4 poolManager
     function vault() external view returns (IVault);
 }

@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 import "forge-std/Test.sol";
 import {CLMigratorFromV2} from "./CLMigratorFromV2.sol";
 
-contract CLMigratorFromPancakeswapV2Test is CLMigratorFromV2 {
+contract CLMigratorFromSunSwapswapV2Test is CLMigratorFromV2 {
     function _getBytecodePath() internal pure override returns (string memory) {
         // Create a Pancakeswap V2 pair
         // relative to the root of the project
@@ -13,6 +13,6 @@ contract CLMigratorFromPancakeswapV2Test is CLMigratorFromV2 {
     }
 
     function _getContractName() internal pure override returns (string memory) {
-        return "CLMigratorFromPancakeswapV2Test";
+        return "CLMigratorFromSunSwapswapV2Test";
     }
 }

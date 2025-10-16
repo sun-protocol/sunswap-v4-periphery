@@ -4,23 +4,23 @@ pragma solidity ^0.8.24;
 import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {V3SmartRouterHelper} from "../../src/libraries/external/V3SmartRouterHelper.sol";
-import {IPancakeV3Factory} from "../../src/interfaces/external/IPancakeV3Factory.sol";
-import {IPancakeV3Pool} from "../../src/interfaces/external/IPancakeV3Pool.sol";
+import {ISunSwapV3Factory} from "../../src/interfaces/external/ISunSwapV3Factory.sol";
+import {ISunSwapV3Pool} from "../../src/interfaces/external/ISunSwapV3Pool.sol";
 
-/// @dev A mock PancakeV3Router contract that can be used to test v3 swap.
+/// @dev A mock SunSwapV3Router contract that can be used to test v3 swap.
 /// @dev Only support exactInputSingle for now.
 /// @dev This contract is only used for testing, and should not be deployed in production.
-contract PancakeV3Router {
-    IPancakeV3Factory public factory;
+contract SunSwapV3Router {
+    ISunSwapV3Factory public factory;
 
-    constructor(IPancakeV3Factory _factory) {
+    constructor(ISunSwapV3Factory _factory) {
         factory = _factory;
     }
 
     /// @dev Returns the pool for the given token pair and fee. The pool contract may or may not exist.
-    function getPool(address tokenA, address tokenB, uint24 fee) private view returns (IPancakeV3Pool) {
+    function getPool(address tokenA, address tokenB, uint24 fee) private view returns (ISunSwapV3Pool) {
         if (tokenA > tokenB) (tokenA, tokenB) = (tokenB, tokenA);
-        return IPancakeV3Pool(factory.getPool(tokenA, tokenB, fee));
+        return ISunSwapV3Pool(factory.getPool(tokenA, tokenB, fee));
     }
 
     function pancakeV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external {

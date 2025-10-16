@@ -4,9 +4,9 @@ pragma solidity ^0.8.0;
 import {IERC721Permit} from "../IERC721Permit.sol";
 
 /// @title IV3NonfungiblePositionManager
-/// @notice Wraps PancakeSwap V3 positions in a non-fungible token interface which allows for them to be transferred
-/// and authorized. Copying from PancakeSwap-V3
-/// https://github.com/pancakeswap/pancake-v3-contracts/blob/main/projects/v3-periphery/contracts/interfaces/INonfungiblePositionManager.sol
+/// @notice Wraps SunSwapSwap V3 positions in a non-fungible token interface which allows for them to be transferred
+/// and authorized. Copying from SunSwap-V3
+
 interface IV3NonfungiblePositionManager is IERC721Permit {
     /// @notice Emitted when liquidity is increased for a position NFT
     /// @dev Also emitted when a token is minted

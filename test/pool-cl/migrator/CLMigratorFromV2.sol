@@ -3,7 +3,7 @@ pragma solidity ^0.8.24;
 
 import "forge-std/Test.sol";
 import {OldVersionHelper} from "../../helpers/OldVersionHelper.sol";
-import {IPancakePair} from "../../../src/interfaces/external/IPancakePair.sol";
+import {ISunSwapPair} from "../../../src/interfaces/external/ISunSwapPair.sol";
 import {WETH} from "solmate/src/tokens/WETH.sol";
 import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -28,7 +28,7 @@ import {Permit2Forwarder} from "../../../src/base/Permit2Forwarder.sol";
 import {Pausable} from "infinity-core/src/base/Pausable.sol";
 import {MockCLMigratorHook} from "./mocks/MockCLMigratorHook.sol";
 
-interface IPancakeV2LikePairFactory {
+interface ISunSwapV2LikePairFactory {
     function getPair(address tokenA, address tokenB) external view returns (address pair);
     function createPair(address tokenA, address tokenB) external returns (address pair);
 }
@@ -46,9 +46,9 @@ abstract contract CLMigratorFromV2 is OldVersionHelper, PosmTestSetup, Permit2Ap
     PoolKey poolKey;
     PoolKey poolKeyWithoutNativeToken;
 
-    IPancakeV2LikePairFactory v2Factory;
-    IPancakePair v2Pair;
-    IPancakePair v2PairWithoutNativeToken;
+    ISunSwapV2LikePairFactory v2Factory;
+    ISunSwapPair v2Pair;
+    ISunSwapPair v2PairWithoutNativeToken;
     MockCLMigratorHook clMigratorHook;
     bytes32 PERMIT2_DOMAIN_SEPARATOR;
 
@@ -94,9 +94,9 @@ abstract contract CLMigratorFromV2 is OldVersionHelper, PosmTestSetup, Permit2Ap
         token0.mint(address(this), 100 ether);
         token1.mint(address(this), 100 ether);
 
-        v2Factory = IPancakeV2LikePairFactory(createContractThroughBytecode(_getBytecodePath()));
-        v2Pair = IPancakePair(v2Factory.createPair(address(weth), address(token0)));
-        v2PairWithoutNativeToken = IPancakePair(v2Factory.createPair(address(token0), address(token1)));
+        v2Factory = ISunSwapV2LikePairFactory(createContractThroughBytecode(_getBytecodePath()));
+        v2Pair = ISunSwapPair(v2Factory.createPair(address(weth), address(token0)));
+        v2PairWithoutNativeToken = ISunSwapPair(v2Factory.createPair(address(token0), address(token1)));
 
         tickLower = -100;
         tickUpper = 100;
@@ -911,14 +911,14 @@ abstract contract CLMigratorFromV2 is OldVersionHelper, PosmTestSetup, Permit2Ap
         assertApproxEqAbs(token0.balanceOf(address(poolManager)), 10 ether, 0.000001 ether);
     }
 
-    function _mintV2Liquidity(IPancakePair pair) public {
+    function _mintV2Liquidity(ISunSwapPair pair) public {
         IERC20(pair.token0()).transfer(address(pair), 10 ether);
         IERC20(pair.token1()).transfer(address(pair), 10 ether);
 
         pair.mint(address(this));
     }
 
-    function _mintV2Liquidity(IPancakePair pair, uint256 amount0, uint256 amount1) public {
+    function _mintV2Liquidity(ISunSwapPair pair, uint256 amount0, uint256 amount1) public {
         IERC20(pair.token0()).transfer(address(pair), amount0);
         IERC20(pair.token1()).transfer(address(pair), amount1);
 

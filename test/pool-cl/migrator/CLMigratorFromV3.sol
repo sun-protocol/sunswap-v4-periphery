@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 import "forge-std/Test.sol";
 import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import {OldVersionHelper} from "../../helpers/OldVersionHelper.sol";
-import {IPancakePair} from "../../../src/interfaces/external/IPancakePair.sol";
+import {ISunSwapPair} from "../../../src/interfaces/external/ISunSwapPair.sol";
 import {WETH} from "solmate/src/tokens/WETH.sol";
 import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -33,7 +33,7 @@ import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
 import {Pausable} from "infinity-core/src/base/Pausable.sol";
 import {MockCLMigratorHook} from "./mocks/MockCLMigratorHook.sol";
 
-interface IPancakeV3LikePairFactory {
+interface ISunSwapV3LikePairFactory {
     function createPool(address tokenA, address tokenB, uint24 fee) external returns (address pool);
 }
 
@@ -56,7 +56,7 @@ abstract contract CLMigratorFromV3 is OldVersionHelper, PosmTestSetup, Permit2Ap
     PoolKey poolKeyWithoutNativeToken;
     MockCLMigratorHook clMigratorHook;
 
-    IPancakeV3LikePairFactory v3Factory;
+    ISunSwapV3LikePairFactory v3Factory;
     IV3NonfungiblePositionManager v3Nfpm;
 
     function _getDeployerBytecodePath() internal pure virtual returns (string memory);
@@ -106,7 +106,7 @@ abstract contract CLMigratorFromV3 is OldVersionHelper, PosmTestSetup, Permit2Ap
         // pcs v3
         if (bytes(_getDeployerBytecodePath()).length != 0) {
             address deployer = createContractThroughBytecode(_getDeployerBytecodePath());
-            v3Factory = IPancakeV3LikePairFactory(
+            v3Factory = ISunSwapV3LikePairFactory(
                 createContractThroughBytecode(_getFactoryBytecodePath(), toBytes32(address(deployer)))
             );
             (bool success,) = deployer.call(abi.encodeWithSignature("setFactoryAddress(address)", address(v3Factory)));
@@ -121,7 +121,7 @@ abstract contract CLMigratorFromV3 is OldVersionHelper, PosmTestSetup, Permit2Ap
                 )
             );
         } else {
-            v3Factory = IPancakeV3LikePairFactory(createContractThroughBytecode(_getFactoryBytecodePath()));
+            v3Factory = ISunSwapV3LikePairFactory(createContractThroughBytecode(_getFactoryBytecodePath()));
 
             v3Nfpm = IV3NonfungiblePositionManager(
                 createContractThroughBytecode(

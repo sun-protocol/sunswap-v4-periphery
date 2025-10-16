@@ -2,12 +2,12 @@
 pragma solidity ^0.8.0;
 
 import {IStableSwapFactory} from "../../interfaces/external/IStableSwapFactory.sol";
-import {IPancakePair} from "../../interfaces/external/IPancakePair.sol";
-import {IPancakeV3Pool} from "../../interfaces/external/IPancakeV3Pool.sol";
-import {IPancakeFactory} from "../../interfaces/external/IPancakeFactory.sol";
-import {IPancakeV3Factory} from "../../interfaces/external/IPancakeV3Factory.sol";
+import {ISunSwapPair} from "../../interfaces/external/ISunSwapPair.sol";
+import {ISunSwapV3Pool} from "../../interfaces/external/ISunSwapV3Pool.sol";
+import {ISunSwapFactory} from "../../interfaces/external/ISunSwapFactory.sol";
+import {ISunSwapV3Factory} from "../../interfaces/external/ISunSwapV3Factory.sol";
 
-/// @dev Copy from https://github.com/pancakeswap/pancake-v3-contracts/blob/main/projects/router/contracts/libraries/SmartRouterHelper.sol
+
 library V3SmartRouterHelper {
     /**
      * Stable *************************************************
@@ -54,12 +54,12 @@ library V3SmartRouterHelper {
         require(token0 != address(0));
     }
 
-    /// @dev PancakeSwap is a multichain DEX, we have different factories on different chains.
+    /// @dev SunSwap is a multichain DEX, we have different factories on different chains.
     /// If we use the CREATE2 rule to calculate the pool address, we need to update the INIT_CODE_HASH for each chain.
     /// And quoter functions are not gas efficient and should _not_ be called on chain.
     function pairFor(address factory, address tokenA, address tokenB) internal view returns (address pair) {
         (address token0, address token1) = sortTokens(tokenA, tokenB);
-        return IPancakeFactory(factory).getPair(token0, token1);
+        return ISunSwapFactory(factory).getPair(token0, token1);
     }
 
     // fetches and sorts the reserves for a pair
@@ -69,7 +69,7 @@ library V3SmartRouterHelper {
         returns (uint256 reserveA, uint256 reserveB)
     {
         (address token0,) = sortTokens(tokenA, tokenB);
-        (uint256 reserve0, uint256 reserve1,) = IPancakePair(pairFor(factory, tokenA, tokenB)).getReserves();
+        (uint256 reserve0, uint256 reserve1,) = ISunSwapPair(pairFor(factory, tokenA, tokenB)).getReserves();
         (reserveA, reserveB) = tokenA == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
     }
 
@@ -120,20 +120,20 @@ library V3SmartRouterHelper {
      */
 
     /// @notice Returns the pool for the given token pair and fee. The pool contract may or may not exist.
-    /// @dev PancakeSwap is a multichain DEX, we have different factories on different chains.
+    /// @dev SunSwap is a multichain DEX, we have different factories on different chains.
     /// If we use the CREATE2 rule to calculate the pool address, we need to update the INIT_CODE_HASH for each chain.
     /// And quoter functions are not gas efficient and should _not_ be called on chain.
     function getPool(address factory, address tokenA, address tokenB, uint24 fee)
         internal
         view
-        returns (IPancakeV3Pool)
+        returns (ISunSwapV3Pool)
     {
         if (tokenA > tokenB) (tokenA, tokenB) = (tokenB, tokenA);
-        return IPancakeV3Pool(IPancakeV3Factory(factory).getPool(tokenA, tokenB, fee));
+        return ISunSwapV3Pool(ISunSwapV3Factory(factory).getPool(tokenA, tokenB, fee));
     }
 
-    /// @notice Returns the address of a valid PancakeSwap V3 Pool
-    /// @param factory The contract address of the PancakeSwap V3 factory
+    /// @notice Returns the address of a valid SunSwap V3 Pool
+    /// @param factory The contract address of the SunSwap V3 factory
     /// @param tokenA The contract address of either token0 or token1
     /// @param tokenB The contract address of the other token
     /// @param fee The fee collected upon every swap in the pool, denominated in hundredths of a bip
@@ -141,7 +141,7 @@ library V3SmartRouterHelper {
     function verifyCallback(address factory, address tokenA, address tokenB, uint24 fee)
         internal
         view
-        returns (IPancakeV3Pool pool)
+        returns (ISunSwapV3Pool pool)
     {
         pool = getPool(factory, tokenA, tokenB, fee);
         require(msg.sender == address(pool));

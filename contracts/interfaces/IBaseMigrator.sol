@@ -22,7 +22,7 @@ interface IBaseMigrator is IMulticall, ISelfPermitERC721 {
 
     /// @notice Parameters for removing liquidity from v2
     struct V2PoolParams {
-        // the PancakeSwap v2-compatible pair
+        // the SunSwap v2-compatible pair
         address pair;
         // the amount of v2 lp token to be withdrawn
         uint256 migrateAmount;
@@ -33,7 +33,7 @@ interface IBaseMigrator is IMulticall, ISelfPermitERC721 {
 
     /// @notice Parameters for removing liquidity from v3
     struct V3PoolParams {
-        // the PancakeSwap v3-compatible NFP
+        // the SunSwap v3-compatible NFP
         address nfp;
         uint256 tokenId;
         uint128 liquidity;

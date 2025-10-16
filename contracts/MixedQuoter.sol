@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2024 PancakeSwap
+// Copyright (C) 2025 SunSwap
 pragma solidity 0.8.26;
 
 import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
@@ -8,8 +8,8 @@ import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
 import {IQuoter} from "./interfaces/IQuoter.sol";
 import {ICLQuoter} from "./pool-cl/interfaces/ICLQuoter.sol";
-import {IPancakeV3Pool} from "./interfaces/external/IPancakeV3Pool.sol";
-import {IPancakeV3SwapCallback} from "./interfaces/external/IPancakeV3SwapCallback.sol";
+import {ISunSwapV3Pool} from "./interfaces/external/ISunSwapV3Pool.sol";
+import {ISunSwapV3SwapCallback} from "./interfaces/external/ISunSwapV3SwapCallback.sol";
 import {IStableSwap} from "./interfaces/external/IStableSwap.sol";
 import {V3PoolTicksCounter} from "./libraries/external/V3PoolTicksCounter.sol";
 import {V3SmartRouterHelper} from "./libraries/external/V3SmartRouterHelper.sol";
@@ -23,9 +23,9 @@ import {Multicall} from "./base/Multicall.sol";
 /// @notice Does not support exact output swaps since using the contract balance between exactOut swaps is not supported
 /// @dev These functions are not gas efficient and should _not_ be called on chain. Instead, optimistically execute
 /// the swap and check the amounts in the callback.
-contract MixedQuoter is IMixedQuoter, IPancakeV3SwapCallback, Multicall {
+contract MixedQuoter is IMixedQuoter, ISunSwapV3SwapCallback, Multicall {
     using SafeCast for *;
-    using V3PoolTicksCounter for IPancakeV3Pool;
+    using V3PoolTicksCounter for ISunSwapV3Pool;
 
     address constant ZERO_ADDRESS = address(0);
 
@@ -60,8 +60,8 @@ contract MixedQuoter is IMixedQuoter, IPancakeV3SwapCallback, Multicall {
      * V3 *************************************************
      */
 
-    /// @inheritdoc IPancakeV3SwapCallback
-    function pancakeV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes memory data)
+    /// @inheritdoc ISunSwapV3SwapCallback
+    function sunSwapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes memory data)
         external
         view
         override
@@ -74,7 +74,7 @@ contract MixedQuoter is IMixedQuoter, IPancakeV3SwapCallback, Multicall {
             ? (tokenIn < tokenOut, uint256(-amount1Delta))
             : (tokenOut < tokenIn, uint256(-amount0Delta));
 
-        IPancakeV3Pool pool = V3SmartRouterHelper.getPool(factoryV3, tokenIn, tokenOut, fee);
+        ISunSwapV3Pool pool = V3SmartRouterHelper.getPool(factoryV3, tokenIn, tokenOut, fee);
         (uint160 v3SqrtPriceX96After, int24 tickAfter,,,,,) = pool.slot0();
 
         if (isExactInput) {
@@ -107,7 +107,7 @@ contract MixedQuoter is IMixedQuoter, IPancakeV3SwapCallback, Multicall {
         return abi.decode(reason, (uint256, uint160, int24));
     }
 
-    function handleV3Revert(bytes memory reason, IPancakeV3Pool pool, uint256 gasEstimate)
+    function handleV3Revert(bytes memory reason, ISunSwapV3Pool pool, uint256 gasEstimate)
         private
         view
         returns (uint256 amount, uint160 sqrtPriceX96After, uint32 initializedTicksCrossed, uint256)
@@ -129,7 +129,7 @@ contract MixedQuoter is IMixedQuoter, IPancakeV3SwapCallback, Multicall {
         returns (uint256 amountOut, uint160 sqrtPriceX96After, uint32 initializedTicksCrossed, uint256 gasEstimate)
     {
         bool zeroForOne = params.tokenIn < params.tokenOut;
-        IPancakeV3Pool pool = V3SmartRouterHelper.getPool(factoryV3, params.tokenIn, params.tokenOut, params.fee);
+        ISunSwapV3Pool pool = V3SmartRouterHelper.getPool(factoryV3, params.tokenIn, params.tokenOut, params.fee);
 
         uint256 gasBefore = gasleft();
         try pool.swap(

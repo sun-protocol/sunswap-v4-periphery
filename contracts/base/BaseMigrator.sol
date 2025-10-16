@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2024 PancakeSwap
+// Copyright (C) 2025 SunSwap
 pragma solidity ^0.8.0;
 
 import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import {SafeTransferLib, ERC20} from "solmate/src/utils/SafeTransferLib.sol";
-import {IPancakePair} from "../interfaces/external/IPancakePair.sol";
+import {ISunSwapPair} from "../interfaces/external/ISunSwapPair.sol";
 import {IV3NonfungiblePositionManager} from "../interfaces/external/IV3NonfungiblePositionManager.sol";
 import {IWETH9} from "../interfaces/external/IWETH9.sol";
 import {Multicall} from "./Multicall.sol";
@@ -47,8 +47,8 @@ contract BaseMigrator is IBaseMigrator, Permit2Forwarder, Multicall, SelfPermitE
         view
         returns (bool shouldReversePair)
     {
-        address token0V2 = IPancakePair(v2Pair).token0();
-        address token1V2 = IPancakePair(v2Pair).token1();
+        address token0V2 = ISunSwapPair(v2Pair).token0();
+        address token1V2 = ISunSwapPair(v2Pair).token1();
         return _checkIfTokenPairMatchAndOrder(token0V2, token1V2, token0, token1);
     }
 
@@ -80,7 +80,7 @@ contract BaseMigrator is IBaseMigrator, Permit2Forwarder, Multicall, SelfPermitE
     {
         // burn v2 liquidity to this address
         permit2.transferFrom(msg.sender, v2PoolParams.pair, uint160(v2PoolParams.migrateAmount), v2PoolParams.pair);
-        (amount0Received, amount1Received) = IPancakePair(v2PoolParams.pair).burn(address(this));
+        (amount0Received, amount1Received) = ISunSwapPair(v2PoolParams.pair).burn(address(this));
 
         // same price slippage check as v3
         if (amount0Received < v2PoolParams.amount0Min || amount1Received < v2PoolParams.amount1Min) {
@@ -206,8 +206,7 @@ contract BaseMigrator is IBaseMigrator, Permit2Forwarder, Multicall, SelfPermitE
             shouldReversePair = true;
         } else {
             /// @dev the order of token0 and token1 is always sorted
-            /// v2: https://github.com/pancakeswap/pancake-swap-core-v2/blob/38aad83854a46a82ea0e31988ff3cddb2bffb71a/contracts/PancakeFactory.sol#L27
-            /// v3: https://github.com/pancakeswap/pancake-v3-contracts/blob/5cc479f0c5a98966c74d94700057b8c3ca629afd/projects/v3-core/contracts/PancakeV3Factory.sol#L66
+
             if (Currency.unwrap(infiToken0) != v2v3Token0 || Currency.unwrap(infiToken1) != v2v3Token1) {
                 revert TOKEN_NOT_MATCH();
             }
