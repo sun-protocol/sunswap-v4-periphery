@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 import "forge-std/Test.sol";
 import {CLMigratorFromV3} from "./CLMigratorFromV3.sol";
 
-contract CLMigratorFromSunSwapswapV3Test is CLMigratorFromV3 {
+contract CLMigratorFromSunSwapV3Test is CLMigratorFromV3 {
     function _getDeployerBytecodePath() internal pure override returns (string memory) {
         // https://etherscan.io/address/0x41ff9AA7e16B8B1a8a8dc4f0eFacd93D02d071c9#code
         return "./test/bin/pcsV3Deployer.bytecode";

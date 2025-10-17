@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2024 PancakeSwap
+// Copyright (C) 2025 SunSwap
 pragma solidity ^0.8.24;
 
-import {Currency} from "infinity-core/src/types/Currency.sol";
+import {Currency} from "v4-core/src/types/Currency.sol";
 import {ImmutableState} from "./ImmutableState.sol";
 import {ActionConstants} from "../libraries/ActionConstants.sol";
 

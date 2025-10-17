@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
 
-import {IVault, PoolManager} from "infinity-core/src/PoolManager.sol";
+import {IVault, PoolManager} from "v4-core/src/PoolManager.sol";
 
 import {SafeCallback} from "../src/base/SafeCallback.sol";
 import {MockSafeCallback} from "./mocks/MockSafeCallback.sol";

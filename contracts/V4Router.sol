@@ -1,24 +1,24 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2024 PancakeSwap
+// Copyright (C) 2025 SunSwap
 pragma solidity ^0.8.24;
 
-import {IVault} from "infinity-core/src/interfaces/IVault.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {Currency} from "infinity-core/src/types/Currency.sol";
+import {IVault} from "v4-core/src/interfaces/IVault.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {Currency} from "v4-core/src/types/Currency.sol";
 import {BipsLibrary} from "./libraries/BipsLibrary.sol";
 import {CalldataDecoder} from "./libraries/CalldataDecoder.sol";
-import {IInfinityRouter} from "./interfaces/IInfinityRouter.sol";
+import {IV4Router} from "./interfaces/IV4Router.sol";
 import {BaseActionsRouter} from "./base/BaseActionsRouter.sol";
 import {DeltaResolver} from "./base/DeltaResolver.sol";
 import {Actions} from "./libraries/Actions.sol";
 import {CLCalldataDecoder} from "./pool-cl/libraries/CLCalldataDecoder.sol";
 import {CLRouterBase} from "./pool-cl/CLRouterBase.sol";
 
-/// @title InfinityRouter
-/// @notice Abstract contract that contains all internal logic needed for routing through Pancakeswap infinity pools
+/// @title V4Router
+/// @notice Abstract contract that contains all internal logic needed for routing through Pancakeswap v4 pools
 /// @dev the entry point to executing actions in this contract is calling `BaseActionsRouter._executeActions`
 /// An inheriting contract should call _executeActions at the point that they wish actions to be executed
-abstract contract InfinityRouter is IInfinityRouter, CLRouterBase, BaseActionsRouter {
+abstract contract V4Router is IV4Router, CLRouterBase, BaseActionsRouter {
     using BipsLibrary for uint256;
     using CalldataDecoder for bytes;
     using CLCalldataDecoder for bytes;
@@ -32,20 +32,20 @@ abstract contract InfinityRouter is IInfinityRouter, CLRouterBase, BaseActionsRo
         // swap actions and payment actions in different blocks for gas efficiency
         if (action < Actions.SETTLE) {
             if (action == Actions.CL_SWAP_EXACT_IN) {
-                IInfinityRouter.CLSwapExactInputParams calldata swapParams = params.decodeCLSwapExactInParams();
+                IV4Router.CLSwapExactInputParams calldata swapParams = params.decodeCLSwapExactInParams();
                 _swapExactInput(swapParams);
                 return;
             } else if (action == Actions.CL_SWAP_EXACT_IN_SINGLE) {
-                IInfinityRouter.CLSwapExactInputSingleParams calldata swapParams =
+                IV4Router.CLSwapExactInputSingleParams calldata swapParams =
                     params.decodeCLSwapExactInSingleParams();
                 _swapExactInputSingle(swapParams);
                 return;
             } else if (action == Actions.CL_SWAP_EXACT_OUT) {
-                IInfinityRouter.CLSwapExactOutputParams calldata swapParams = params.decodeCLSwapExactOutParams();
+                IV4Router.CLSwapExactOutputParams calldata swapParams = params.decodeCLSwapExactOutParams();
                 _swapExactOutput(swapParams);
                 return;
             } else if (action == Actions.CL_SWAP_EXACT_OUT_SINGLE) {
-                IInfinityRouter.CLSwapExactOutputSingleParams calldata swapParams =
+                IV4Router.CLSwapExactOutputSingleParams calldata swapParams =
                     params.decodeCLSwapExactOutSingleParams();
                 _swapExactOutputSingle(swapParams);
                 return;

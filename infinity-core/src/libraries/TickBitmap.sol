@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2024 PancakeSwap
+// Copyright (C) 2025 SunSwap
 pragma solidity ^0.8.0;
 
 import {BitMath} from "./BitMath.sol";
@@ -13,7 +13,7 @@ library TickBitmap {
     /// @param tickSpacing The tick spacing of the pool
     error TickMisaligned(int24 tick, int24 tickSpacing);
 
-    /// @dev round towards negative infinity
+    /// @dev round towards negative v4
     function compress(int24 tick, int24 tickSpacing) internal pure returns (int24 compressed) {
         // Equivalent to:
         //   compressed = tick / tickSpacing;

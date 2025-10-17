@@ -2,12 +2,12 @@
 // Copyright (C) 2024 PancakeSwap
 pragma solidity ^0.8.24;
 
-import {IVault} from "infinity-core/src/interfaces/IVault.sol";
+import {IVault} from "v4-core/src/interfaces/IVault.sol";
 import {SafeCallback} from "./SafeCallback.sol";
 import {CalldataDecoder} from "../libraries/CalldataDecoder.sol";
 import {ActionConstants} from "../libraries/ActionConstants.sol";
 
-/// @notice Abstract contract for performing a combination of actions on Pancakeswap infinity.
+/// @notice Abstract contract for performing a combination of actions on SunSwap v4.
 /// @dev Suggested uint256 action values are defined in Actions.sol, however any definition can be used
 abstract contract BaseActionsRouter is SafeCallback {
     using CalldataDecoder for bytes;
@@ -20,7 +20,7 @@ abstract contract BaseActionsRouter is SafeCallback {
 
     constructor(IVault _vault) SafeCallback(_vault) {}
 
-    /// @notice internal function that triggers the execution of a set of actions on infinity
+    /// @notice internal function that triggers the execution of a set of actions on v4
     /// @dev inheriting contracts should call this function to trigger execution
     function _executeActions(bytes calldata data) internal {
         vault.lock(data);

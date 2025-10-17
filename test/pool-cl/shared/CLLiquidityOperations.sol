@@ -2,11 +2,11 @@
 pragma solidity ^0.8.24;
 
 import {CommonBase} from "forge-std/Base.sol";
-import {Currency} from "infinity-core/src/types/Currency.sol";
-import {BalanceDelta, toBalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
-import {LiquidityAmounts} from "infinity-core/test/helpers/LiquidityAmounts.sol";
+import {Currency} from "v4-core/src/types/Currency.sol";
+import {BalanceDelta, toBalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {TickMath} from "v4-core/src/libraries/TickMath.sol";
+import {LiquidityAmounts} from "v4-core/test/helpers/LiquidityAmounts.sol";
 import {SafeCastTemp} from "../../../src/libraries/SafeCast.sol";
 
 import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";

@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {BalanceDelta, toBalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {Currency} from "infinity-core/src/types/Currency.sol";
-import {Fuzzers} from "infinity-core/test/helpers/Fuzzers.sol";
-import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
-import {CLPoolParametersHelper} from "infinity-core/src/libraries/CLPoolParametersHelper.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {BalanceDelta, toBalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
+import {Currency} from "v4-core/src/types/Currency.sol";
+import {Fuzzers} from "v4-core/test/helpers/Fuzzers.sol";
+import {TickMath} from "v4-core/src/libraries/TickMath.sol";
+import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelper.sol";
 
 import {ICLPositionManager} from "../../../../src/pool-cl/interfaces/ICLPositionManager.sol";
 import {Actions} from "../../../../src/libraries/Actions.sol";

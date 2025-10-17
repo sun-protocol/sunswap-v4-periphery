@@ -6,7 +6,7 @@ import {Planner, Plan} from "../src/libraries/Planner.sol";
 import {Actions} from "../src/libraries/Actions.sol";
 import {ActionConstants} from "../src/libraries/ActionConstants.sol";
 import {Test} from "forge-std/Test.sol";
-import {IVault, PoolManager} from "infinity-core/src/PoolManager.sol";
+import {IVault, PoolManager} from "v4-core/src/PoolManager.sol";
 
 contract BaseActionsRouterTest is Test {
     MockBaseActionsRouter router;

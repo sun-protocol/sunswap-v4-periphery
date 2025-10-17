@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {BalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
 import {IPositionManager} from "../../interfaces/IPositionManager.sol";
 import {CLPositionInfo} from "../libraries/CLPositionInfoLibrary.sol";
 import {ICLSubscriber} from "./ICLSubscriber.sol";
@@ -24,7 +24,7 @@ interface ICLPositionManager is IPositionManager {
     /// @notice Get the clPoolManager
     function clPoolManager() external view returns (ICLPoolManager);
 
-    /// @notice Initialize an infinity cl pool
+    /// @notice Initialize an v4 cl pool
     /// @dev If the pool is already initialized, this function will not revert and just return type(int24).max
     /// @param key the PoolKey of the pool to initialize
     /// @param sqrtPriceX96 the initial sqrtPriceX96 of the pool

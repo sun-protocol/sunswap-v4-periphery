@@ -25,13 +25,13 @@ remappings = [
     'forge-gas-snapshot/=lib/forge-gas-snapshot/src/',
     'pancake-create3-factory/=lib/pancake-create3-factory/',
     'src/=contracts/',
-    'infinity-core/=lib/infinity-core/',
+    'v4-core/=lib/infinity-core/',
     'ds-test/=lib/infinity-core/lib/forge-std/lib/ds-test/src/',
     'forge-std/=lib/infinity-core/lib/forge-std/src/',
     'openzeppelin-contracts/=lib/infinity-core/lib/openzeppelin-contracts/',
     'solmate/=lib/infinity-core/lib/solmate/',
     'permit2/=lib/permit2',
-    'infinity-core/=lib/infinity-core/'
+    'v4-core/=lib/infinity-core/'
 ]
 
 # added due to v1.0 foundry

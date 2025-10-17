@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
 
-import {FullMath} from "infinity-core/src/libraries/FullMath.sol";
-import {FixedPoint128} from "infinity-core/src/libraries/FixedPoint128.sol";
-import {CLPosition} from "infinity-core/src/libraries/CLPosition.sol";
+import {FullMath} from "v4-core/src/libraries/FullMath.sol";
+import {FixedPoint128} from "v4-core/src/libraries/FixedPoint128.sol";
+import {CLPosition} from "v4-core/src/libraries/CLPosition.sol";
 import {SafeCastTemp} from "../../../src/libraries/SafeCast.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {BalanceDelta, toBalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {PoolId, PoolIdLibrary} from "infinity-core/src/types/PoolId.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {Tick} from "infinity-core/src/libraries/Tick.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {BalanceDelta, toBalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
+import {PoolId, PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {Tick} from "v4-core/src/libraries/Tick.sol";
 
 import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
 import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";

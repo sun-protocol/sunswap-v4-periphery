@@ -8,15 +8,15 @@ import {ISunSwapPair} from "../src/interfaces/external/ISunSwapPair.sol";
 import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {CLPositionManager} from "../src/pool-cl/CLPositionManager.sol";
-import {IVault} from "infinity-core/src/interfaces/IVault.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {PoolManager} from "infinity-core/src/PoolManager.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {CLPoolParametersHelper} from "infinity-core/src/libraries/CLPoolParametersHelper.sol";
-import {Currency, CurrencyLibrary} from "infinity-core/src/types/Currency.sol";
-import {IPoolManager} from "infinity-core/src/interfaces/IPoolManager.sol";
-import {IHooks} from "infinity-core/src/interfaces/IHooks.sol";
-import {PoolId, PoolIdLibrary} from "infinity-core/src/types/PoolId.sol";
+import {IVault} from "v4-core/src/interfaces/IVault.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {PoolManager} from "v4-core/src/PoolManager.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelper.sol";
+import {Currency, CurrencyLibrary} from "v4-core/src/types/Currency.sol";
+import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
+import {IHooks} from "v4-core/src/interfaces/IHooks.sol";
+import {PoolId, PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
 import {PosmTestSetup} from "./pool-cl/shared/PosmTestSetup.sol";
 import {Permit2ApproveHelper} from "./helpers/Permit2ApproveHelper.sol";
 import {IAllowanceTransfer} from "permit2/src/interfaces/IAllowanceTransfer.sol";
@@ -37,7 +37,7 @@ import {DeployStableSwapHelper} from "./helpers/DeployStableSwapHelper.sol";
 import {IStableSwapFactory} from "../src/interfaces/external/IStableSwapFactory.sol";
 import {IStableSwap} from "../src/interfaces/external/IStableSwap.sol";
 import {IWETH9} from "../src/interfaces/external/IWETH9.sol";
-import {MockInfinityRouter} from "./mocks/MockInfinityRouter.sol";
+import {MockV4Router} from "./mocks/MockV4Router.sol";
 import {ICLRouterBase} from "../src/pool-cl/interfaces/ICLRouterBase.sol";
 import {ActionConstants} from "../src/libraries/ActionConstants.sol";
 import {V3SmartRouterHelper} from "../src/libraries/external/V3SmartRouterHelper.sol";
@@ -67,7 +67,7 @@ contract MixedQuoterTest is
     MockERC20 token4;
     MockERC20 token5;
 
-    MockInfinityRouter infinityRouter;
+    MockV4Router v4Router;
 
     IVault vault;
     PoolManager poolManager;
@@ -107,13 +107,13 @@ contract MixedQuoterTest is
         deployPosmHookSavesDelta();
         (poolManager, poolKey, poolId) = createFreshPool(IHooks(address(hook)), 3000, SQRT_RATIO_1_1);
 
-        infinityRouter = new MockInfinityRouter(IVault(address(poolManager)),poolManager);
-        MockERC20(Currency.unwrap(poolKey.currency0)).approve(address(infinityRouter), type(uint256).max);
-        MockERC20(Currency.unwrap(poolKey.currency1)).approve(address(infinityRouter), type(uint256).max);
-        token2.approve(address(infinityRouter), type(uint256).max);
-        token3.approve(address(infinityRouter), type(uint256).max);
-        token4.approve(address(infinityRouter), type(uint256).max);
-        token5.approve(address(infinityRouter), type(uint256).max);
+        v4Router = new MockV4Router(IVault(address(poolManager)),poolManager);
+        MockERC20(Currency.unwrap(poolKey.currency0)).approve(address(v4Router), type(uint256).max);
+        MockERC20(Currency.unwrap(poolKey.currency1)).approve(address(v4Router), type(uint256).max);
+        token2.approve(address(v4Router), type(uint256).max);
+        token3.approve(address(v4Router), type(uint256).max);
+        token4.approve(address(v4Router), type(uint256).max);
+        token5.approve(address(v4Router), type(uint256).max);
 
         currency0 = poolKey.currency0;
         currency1 = poolKey.currency1;
@@ -783,17 +783,17 @@ contract MixedQuoterTest is
         assertLe(diff, 2);
     }
 
-    function testInfiCLquoteExactInputSingle_ZeroForOne() public {
+    function testV4CLquoteExactInputSingle_ZeroForOne() public {
         address[] memory paths = new address[](2);
         paths[0] = address(Currency.unwrap(poolKey.currency0));
         paths[1] = address(Currency.unwrap(poolKey.currency1));
 
         bytes memory actions = new bytes(1);
-        actions[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](1);
         params[0] =
-            abi.encode(IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
+            abi.encode(IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
 
         (uint256 amountOut, uint256 gasEstimate) = mixedQuoter.quoteMixedExactInput(paths, actions, params, 1 ether);
 
@@ -813,17 +813,17 @@ contract MixedQuoterTest is
         assertLt(_gasEstimate, 70000);
     }
 
-    function test_quoteMixedExactInputSharedContext_InfiCL() public {
+    function test_quoteMixedExactInputSharedContext_V4CL() public {
         address[] memory paths = new address[](2);
         paths[0] = address(token0);
         paths[1] = address(token1);
 
         bytes memory actions = new bytes(1);
-        actions[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](1);
         params[0] =
-            abi.encode(IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
+            abi.encode(IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
         // swap 0.5 ether
         (uint256 amountOut, uint256 gasEstimate) = mixedQuoter.quoteMixedExactInput(paths, actions, params, 0.5 ether);
         assertEq(amountOut, 498417179678643398);
@@ -860,20 +860,20 @@ contract MixedQuoterTest is
         plan = plan.add(Actions.CL_SWAP_EXACT_IN_SINGLE, abi.encode(swapParams1));
         bytes memory swapData1 = plan.finalizeSwap(poolKey.currency0, poolKey.currency1, ActionConstants.MSG_SENDER);
         uint256 route1Token1BalanceBefore = poolKey.currency1.balanceOf(address(this));
-        infinityRouter.executeActions(swapData1);
+        v4Router.executeActions(swapData1);
         uint256 route1Token1BalanceAfter = poolKey.currency1.balanceOf(address(this));
 
         uint256 route1Token1Received = route1Token1BalanceAfter - route1Token1BalanceBefore;
         assertEq(route1Token1Received, swapPath1Output);
 
-        // swap another 0.5 ether in infinity cl pool
+        // swap another 0.5 ether in v4 cl pool
         ICLRouterBase.CLSwapExactInputSingleParams memory swapParams2 =
             ICLRouterBase.CLSwapExactInputSingleParams(poolKey, true, 0.5 ether, 0, ZERO_BYTES);
         plan = Planner.init();
         plan = plan.add(Actions.CL_SWAP_EXACT_IN_SINGLE, abi.encode(swapParams2));
         bytes memory swapData2 = plan.finalizeSwap(poolKey.currency0, poolKey.currency1, ActionConstants.MSG_SENDER);
         uint256 route2Token1BalanceBefore = poolKey.currency1.balanceOf(address(this));
-        infinityRouter.executeActions(swapData2);
+        v4Router.executeActions(swapData2);
         uint256 route2Token1BalanceAfter = poolKey.currency1.balanceOf(address(this));
 
         uint256 route2Token1Received = route2Token1BalanceAfter - route2Token1BalanceBefore;
@@ -881,7 +881,7 @@ contract MixedQuoterTest is
         assertEq(route2Token1Received, swapPath2Output - 1);
     }
 
-    function testFuzz_quoteMixedExactInputSharedContext_InfiCL(uint8 firstSwapPercent, bool isZeroForOne) public {
+    function testFuzz_quoteMixedExactInputSharedContext_V4CL(uint8 firstSwapPercent, bool isZeroForOne) public {
         uint256 OneHundredPercent = type(uint8).max;
         vm.assume(firstSwapPercent > 0 && firstSwapPercent < OneHundredPercent);
         uint256 totalSwapAmount = 1 ether;
@@ -898,11 +898,11 @@ contract MixedQuoterTest is
         }
 
         bytes memory actions = new bytes(1);
-        actions[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](1);
         params[0] =
-            abi.encode(IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
+            abi.encode(IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
 
         bytes[] memory multicallBytes = new bytes[](2);
         multicallBytes[0] = abi.encodeWithSelector(
@@ -916,7 +916,7 @@ contract MixedQuoterTest is
         (uint256 amountOutOfRoute1,) = abi.decode(results[0], (uint256, uint256));
         (uint256 amountOutOfRoute2,) = abi.decode(results[1], (uint256, uint256));
 
-        // first swap in infinity cl pool
+        // first swap in v4 cl pool
         ICLRouterBase.CLSwapExactInputSingleParams memory swapParams1 =
             ICLRouterBase.CLSwapExactInputSingleParams(poolKey, isZeroForOne, firstSwapAmount, 0, ZERO_BYTES);
 
@@ -933,7 +933,7 @@ contract MixedQuoterTest is
         } else {
             route1TokenOutBalanceBefore = poolKey.currency0.balanceOf(address(this));
         }
-        infinityRouter.executeActions(swapData1);
+        v4Router.executeActions(swapData1);
         uint256 route1TokenOutBalanceAfter;
         if (isZeroForOne) {
             route1TokenOutBalanceAfter = poolKey.currency1.balanceOf(address(this));
@@ -944,7 +944,7 @@ contract MixedQuoterTest is
         uint256 route1TokenOutReceived = route1TokenOutBalanceAfter - route1TokenOutBalanceBefore;
         assertEq(route1TokenOutReceived, amountOutOfRoute1);
 
-        // second swap in infinity cl pool
+        // second swap in v4 cl pool
         ICLRouterBase.CLSwapExactInputSingleParams memory swapParams2 =
             ICLRouterBase.CLSwapExactInputSingleParams(poolKey, isZeroForOne, secondSwapAmount, 0, ZERO_BYTES);
         plan = Planner.init();
@@ -961,7 +961,7 @@ contract MixedQuoterTest is
         } else {
             route2TokenOutBalanceBefore = poolKey.currency0.balanceOf(address(this));
         }
-        infinityRouter.executeActions(swapData2);
+        v4Router.executeActions(swapData2);
         uint256 route2TokenOutBalanceAfter;
         if (isZeroForOne) {
             route2TokenOutBalanceAfter = poolKey.currency1.balanceOf(address(this));
@@ -973,17 +973,17 @@ contract MixedQuoterTest is
         assertEq(route2TokenOutReceived, amountOutOfRoute2);
     }
 
-    function testInfiCLquoteExactInputSingle_OneForZero() public {
+    function testV4CLquoteExactInputSingle_OneForZero() public {
         address[] memory paths = new address[](2);
         paths[0] = address(Currency.unwrap(poolKey.currency1));
         paths[1] = address(Currency.unwrap(poolKey.currency0));
 
         bytes memory actions = new bytes(1);
-        actions[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](1);
         params[0] =
-            abi.encode(IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
+            abi.encode(IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
 
         (uint256 amountOut, uint256 gasEstimate) = mixedQuoter.quoteMixedExactInput(paths, actions, params, 1 ether);
 
@@ -1003,7 +1003,7 @@ contract MixedQuoterTest is
         assertLt(_gasEstimate, 70000);
     }
 
-    function testInfiCLquoteExactInputSingle_ZeroForOne_WETHPair() public {
+    function testV4CLquoteExactInputSingle_ZeroForOne_WETHPair() public {
         address[] memory paths = new address[](2);
         if (address(weth) < address(token2)) {
             paths[0] = address(weth);
@@ -1014,11 +1014,11 @@ contract MixedQuoterTest is
         }
 
         bytes memory actions = new bytes(1);
-        actions[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](1);
         params[0] = abi.encode(
-            IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKeyWithWETH, hookData: ZERO_BYTES})
+            IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKeyWithWETH, hookData: ZERO_BYTES})
         );
 
         (uint256 amountOut, uint256 gasEstimate) = mixedQuoter.quoteMixedExactInput(paths, actions, params, 1 ether);
@@ -1051,12 +1051,12 @@ contract MixedQuoterTest is
         paths1[3] = address(weth);
         // cl pool -> ss pool -> v3 pool
         bytes memory actions1 = new bytes(3);
-        actions1[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions1[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
         actions1[1] = bytes1(uint8(MixedQuoterActions.SS_2_EXACT_INPUT_SINGLE));
         actions1[2] = bytes1(uint8(MixedQuoterActions.V3_EXACT_INPUT_SINGLE));
         bytes[] memory params1 = new bytes[](3);
         params1[0] =
-            abi.encode(IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
+            abi.encode(IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
         params1[1] = new bytes(0);
         uint24 fee = 500;
         params1[2] = abi.encode(fee);
@@ -1069,13 +1069,13 @@ contract MixedQuoterTest is
         paths2[3] = address(weth);
         // cl pool -> ss pool -> v2 pool
         bytes memory actions2 = new bytes(3);
-        actions2[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions2[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
         actions2[1] = bytes1(uint8(MixedQuoterActions.SS_2_EXACT_INPUT_SINGLE));
         actions2[2] = bytes1(uint8(MixedQuoterActions.V2_EXACT_INPUT_SINGLE));
 
         bytes[] memory params2 = new bytes[](3);
         params2[0] =
-            abi.encode(IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
+            abi.encode(IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
         params2[1] = new bytes(0);
         params2[2] = new bytes(0);
 
@@ -1107,12 +1107,12 @@ contract MixedQuoterTest is
 
         // route 1: path 1: token0 -> token1 -> token2 -> weth, cl pool -> ss pool -> v3 pool
         uint256 route1Token1BalanceBefore = token1.balanceOf(address(this));
-        // swap 1 ether in infinity cl pool
+        // swap 1 ether in v4 cl pool
         ICLRouterBase.CLSwapExactInputSingleParams memory swapParams1 =
             ICLRouterBase.CLSwapExactInputSingleParams(poolKey, true, 1 ether, 0, ZERO_BYTES);
         plan = plan.add(Actions.CL_SWAP_EXACT_IN_SINGLE, abi.encode(swapParams1));
         bytes memory swapData1 = plan.finalizeSwap(poolKey.currency0, poolKey.currency1, ActionConstants.MSG_SENDER);
-        infinityRouter.executeActions(swapData1);
+        v4Router.executeActions(swapData1);
         uint256 route1Token1BalanceAfter = token1.balanceOf(address(this));
         uint256 route1Token1Received = route1Token1BalanceAfter - route1Token1BalanceBefore;
 
@@ -1142,13 +1142,13 @@ contract MixedQuoterTest is
 
         // route 2: path 2: token0 -> token1 -> token2 -> weth, cl pool -> ss pool -> v2 pool
         uint256 route2Token1BalanceBefore = token1.balanceOf(address(this));
-        // swap 1 ether in infinity cl pool
+        // swap 1 ether in v4 cl pool
         ICLRouterBase.CLSwapExactInputSingleParams memory swapParams3 =
             ICLRouterBase.CLSwapExactInputSingleParams(poolKey, true, 1 ether, 0, ZERO_BYTES);
         plan = Planner.init();
         plan = plan.add(Actions.CL_SWAP_EXACT_IN_SINGLE, abi.encode(swapParams3));
         bytes memory swapData3 = plan.finalizeSwap(poolKey.currency0, poolKey.currency1, ActionConstants.MSG_SENDER);
-        infinityRouter.executeActions(swapData3);
+        v4Router.executeActions(swapData3);
         uint256 route2Token1BalanceAfter = token1.balanceOf(address(this));
         uint256 route2Token1Received = route2Token1BalanceAfter - route2Token1BalanceBefore;
 
@@ -1177,20 +1177,20 @@ contract MixedQuoterTest is
     }
 
     // token0 -> token1 -> token2
-    // infinity CL Pool -> SS Pool
-    function testQuoteMixedTwoHops_InfiCl_SS() public {
+    // v4 CL Pool -> SS Pool
+    function testQuoteMixedTwoHops_V4Cl_SS() public {
         address[] memory paths = new address[](3);
         paths[0] = address(token0);
         paths[1] = address(token1);
         paths[2] = address(token2);
 
         bytes memory actions = new bytes(2);
-        actions[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
         actions[1] = bytes1(uint8(MixedQuoterActions.SS_2_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](2);
         params[0] =
-            abi.encode(IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
+            abi.encode(IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
         params[1] = new bytes(0);
 
         (uint256 amountOut, uint256 gasEstimate) = mixedQuoter.quoteMixedExactInput(paths, actions, params, 1 ether);
@@ -1201,8 +1201,8 @@ contract MixedQuoterTest is
     }
 
     // token0 -> token1 -> token2 -> WETH
-    // infinity CL Pool -> SS Pool -> V3 Pool
-    function testQuoteMixedThreeHops_InfiCl_SS_V3() public {
+    // v4 CL Pool -> SS Pool -> V3 Pool
+    function testQuoteMixedThreeHops_V4Cl_SS_V3() public {
         address[] memory paths = new address[](4);
         paths[0] = address(token0);
         paths[1] = address(token1);
@@ -1210,13 +1210,13 @@ contract MixedQuoterTest is
         paths[3] = address(weth);
 
         bytes memory actions = new bytes(3);
-        actions[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
         actions[1] = bytes1(uint8(MixedQuoterActions.SS_2_EXACT_INPUT_SINGLE));
         actions[2] = bytes1(uint8(MixedQuoterActions.V3_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](3);
         params[0] =
-            abi.encode(IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
+            abi.encode(IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKey, hookData: ZERO_BYTES}));
         params[1] = new bytes(0);
         uint24 fee = 500;
         params[2] = abi.encode(fee);
@@ -1229,8 +1229,8 @@ contract MixedQuoterTest is
     }
 
     // token2 -> WETH -> token1
-    // V3 WETH Pool -> infinity Native Pool
-    function testQuoteMixed_ConvertWETHToNative_V3WETHPair_InfiCLNativePair() public {
+    // V3 WETH Pool -> v4 Native Pool
+    function testQuoteMixed_ConvertWETHToNative_V3WETHPair_V4CLNativePair() public {
         address[] memory paths = new address[](3);
         paths[0] = address(token2);
         paths[1] = address(weth);
@@ -1238,13 +1238,13 @@ contract MixedQuoterTest is
 
         bytes memory actions = new bytes(2);
         actions[0] = bytes1(uint8(MixedQuoterActions.V3_EXACT_INPUT_SINGLE));
-        actions[1] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[1] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](2);
         uint24 fee = 500;
         params[0] = abi.encode(fee);
         params[1] = abi.encode(
-            IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKeyWithNativeToken, hookData: ZERO_BYTES})
+            IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKeyWithNativeToken, hookData: ZERO_BYTES})
         );
 
         (uint256 amountOut, uint256 gasEstimate) = mixedQuoter.quoteMixedExactInput(paths, actions, params, 1 ether);
@@ -1255,20 +1255,20 @@ contract MixedQuoterTest is
     }
 
     // token1 -> address(0) -> token2
-    // infinity CL Native Pool -> V3 WETH Pool
-    function testQuoteMixed_ConvertNativeToWETH_InfiCLNativePair_V3WETHPair() public {
+    // v4 CL Native Pool -> V3 WETH Pool
+    function testQuoteMixed_ConvertNativeToWETH_V4CLNativePair_V3WETHPair() public {
         address[] memory paths = new address[](3);
         paths[0] = address(token1);
         paths[1] = address(0);
         paths[2] = address(token2);
 
         bytes memory actions = new bytes(2);
-        actions[0] = bytes1(uint8(MixedQuoterActions.INFI_CL_EXACT_INPUT_SINGLE));
+        actions[0] = bytes1(uint8(MixedQuoterActions.V4_CL_EXACT_INPUT_SINGLE));
         actions[1] = bytes1(uint8(MixedQuoterActions.V3_EXACT_INPUT_SINGLE));
 
         bytes[] memory params = new bytes[](2);
         params[0] = abi.encode(
-            IMixedQuoter.QuoteMixedInfiExactInputSingleParams({poolKey: poolKeyWithNativeToken, hookData: ZERO_BYTES})
+            IMixedQuoter.QuoteMixedV4ExactInputSingleParams({poolKey: poolKeyWithNativeToken, hookData: ZERO_BYTES})
         );
         uint24 fee = 500;
         params[1] = abi.encode(fee);

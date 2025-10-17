@@ -2,13 +2,13 @@
 // Copyright (C) 2024 PancakeSwap
 pragma solidity ^0.8.0;
 
-import {CurrencyLibrary, Currency} from "infinity-core/src/types/Currency.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {BalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
+import {CurrencyLibrary, Currency} from "v4-core/src/types/Currency.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {ICLRouterBase} from "./interfaces/ICLRouterBase.sol";
-import {IInfinityRouter} from "../interfaces/IInfinityRouter.sol";
+import {IV4Router} from "../interfaces/IV4Router.sol";
 import {PathKeyLibrary, PathKey} from "../libraries/PathKey.sol";
 import {SafeCastTemp} from "../libraries/SafeCast.sol";
 import {DeltaResolver} from "../base/DeltaResolver.sol";
@@ -33,7 +33,7 @@ abstract contract CLRouterBase is ICLRouterBase, DeltaResolver {
             params.poolKey, params.zeroForOne, -int256(uint256(amountIn)), params.hookData
         ).toUint128();
         if (amountOut < params.amountOutMinimum) {
-            revert IInfinityRouter.TooLittleReceived(params.amountOutMinimum, amountOut);
+            revert IV4Router.TooLittleReceived(params.amountOutMinimum, amountOut);
         }
     }
 
@@ -59,7 +59,7 @@ abstract contract CLRouterBase is ICLRouterBase, DeltaResolver {
             }
 
             if (amountOut < params.amountOutMinimum) {
-                revert IInfinityRouter.TooLittleReceived(params.amountOutMinimum, amountOut);
+                revert IV4Router.TooLittleReceived(params.amountOutMinimum, amountOut);
             }
         }
     }
@@ -74,7 +74,7 @@ abstract contract CLRouterBase is ICLRouterBase, DeltaResolver {
             -_swapExactPrivate(params.poolKey, params.zeroForOne, int256(uint256(amountOut)), params.hookData)
         ).toUint128();
         if (amountIn > params.amountInMaximum) {
-            revert IInfinityRouter.TooMuchRequested(params.amountInMaximum, amountIn);
+            revert IV4Router.TooMuchRequested(params.amountInMaximum, amountIn);
         }
     }
 
@@ -105,7 +105,7 @@ abstract contract CLRouterBase is ICLRouterBase, DeltaResolver {
                 currencyOut = pathKey.intermediateCurrency;
             }
             if (amountIn > params.amountInMaximum) {
-                revert IInfinityRouter.TooMuchRequested(params.amountInMaximum, amountIn);
+                revert IV4Router.TooMuchRequested(params.amountInMaximum, amountIn);
             }
         }
     }

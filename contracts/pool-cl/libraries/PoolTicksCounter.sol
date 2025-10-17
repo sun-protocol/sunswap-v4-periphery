@@ -2,9 +2,9 @@
 // Copyright (C) 2024 PancakeSwap
 pragma solidity ^0.8.24;
 
-import {CLPoolParametersHelper} from "infinity-core/src/libraries/CLPoolParametersHelper.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
+import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelper.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 
 /// @title Pool Ticks Counter
 /// @notice Functions for counting the number of initialized ticks between two ticks

@@ -2,9 +2,9 @@
 // Copyright (C) 2024 PancakeSwap
 pragma solidity ^0.8.0;
 
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 import {Actions} from "./Actions.sol";
-import {Currency} from "infinity-core/src/types/Currency.sol";
+import {Currency} from "v4-core/src/types/Currency.sol";
 import {ActionConstants} from "./ActionConstants.sol";
 
 struct Plan {
@@ -14,7 +14,7 @@ struct Plan {
 
 using Planner for Plan global;
 
-/// @notice Constructs a plan of actions to be executed on Pancakeswap infinity.
+/// @notice Constructs a plan of actions to be executed on SunSwap v4.
 library Planner {
     function init() internal pure returns (Plan memory plan) {
         return Plan({actions: bytes(""), params: new bytes[](0)});

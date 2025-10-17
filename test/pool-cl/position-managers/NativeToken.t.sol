@@ -2,19 +2,19 @@
 pragma solidity ^0.8.24;
 
 import "forge-std/Test.sol";
-import {PoolManager} from "infinity-core/src/PoolManager.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {IHooks} from "infinity-core/src/interfaces/IHooks.sol";
-import {Currency, CurrencyLibrary} from "infinity-core/src/types/Currency.sol";
-import {PoolId, PoolIdLibrary} from "infinity-core/src/types/PoolId.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {BalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {LiquidityAmounts} from "infinity-core/test/helpers/LiquidityAmounts.sol";
-import {TickMath} from "infinity-core/src/libraries/TickMath.sol";
+import {PoolManager} from "v4-core/src/PoolManager.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {IHooks} from "v4-core/src/interfaces/IHooks.sol";
+import {Currency, CurrencyLibrary} from "v4-core/src/types/Currency.sol";
+import {PoolId, PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
+import {LiquidityAmounts} from "v4-core/test/helpers/LiquidityAmounts.sol";
+import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {FixedPointMathLib} from "solmate/src/utils/FixedPointMathLib.sol";
-import {IVault} from "infinity-core/src/interfaces/IVault.sol";
-import {CLPosition} from "infinity-core/src/libraries/CLPosition.sol";
-import {SafeCast} from "infinity-core/src/libraries/SafeCast.sol";
+import {IVault} from "v4-core/src/interfaces/IVault.sol";
+import {CLPosition} from "v4-core/src/libraries/CLPosition.sol";
+import {SafeCast} from "v4-core/src/libraries/SafeCast.sol";
 import {SafeCastTemp} from "../../../src/libraries/SafeCast.sol";
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";

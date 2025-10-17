@@ -3,14 +3,14 @@ pragma solidity ^0.8.24;
 
 import {console2} from "forge-std/console2.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {CurrencyLibrary, Currency} from "infinity-core/src/types/Currency.sol";
-import {CurrencySettlement} from "infinity-core/test/helpers/CurrencySettlement.sol";
-import {ILockCallback} from "infinity-core/src/interfaces/ILockCallback.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {IVault} from "infinity-core/src/interfaces/IVault.sol";
+import {CurrencyLibrary, Currency} from "v4-core/src/types/Currency.sol";
+import {CurrencySettlement} from "v4-core/test/helpers/CurrencySettlement.sol";
+import {ILockCallback} from "v4-core/src/interfaces/ILockCallback.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {IVault} from "v4-core/src/interfaces/IVault.sol";
 
-import {BalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
+import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 
 contract PoolModifyPositionTest is ILockCallback {
     using CurrencySettlement for Currency;

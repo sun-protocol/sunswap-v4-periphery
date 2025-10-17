@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 import {CalldataDecoder} from "../../src/libraries/CalldataDecoder.sol";
-import {Currency} from "infinity-core/src/types/Currency.sol";
+import {Currency} from "v4-core/src/types/Currency.sol";
 
 // we need to use a mock contract to make the calls happen in calldata not memory
 contract MockCalldataDecoder {

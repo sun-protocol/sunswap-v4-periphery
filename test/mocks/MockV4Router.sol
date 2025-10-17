@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
-import {IVault} from "infinity-core/src/interfaces/IVault.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {Currency, CurrencyLibrary} from "infinity-core/src/types/Currency.sol";
-import {InfinityRouter} from "../../src/InfinityRouter.sol";
+import {IVault} from "v4-core/src/interfaces/IVault.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {Currency, CurrencyLibrary} from "v4-core/src/types/Currency.sol";
+import {V4Router} from "../../src/V4Router.sol";
 import {ReentrancyLock} from "../../src/base/ReentrancyLock.sol";
 import {SafeTransferLib} from "solmate/src/utils/SafeTransferLib.sol";
 import {ERC20} from "solmate/src/tokens/ERC20.sol";
 
-contract MockInfinityRouter is InfinityRouter, ReentrancyLock {
+contract MockV4Router is V4Router, ReentrancyLock {
     using SafeTransferLib for *;
 
     constructor(IVault _vault, ICLPoolManager _poolManager)
-        InfinityRouter(_vault, _poolManager)
+        V4Router(_vault, _poolManager)
     {}
 
     function executeActions(bytes calldata params) external payable isNotLocked {

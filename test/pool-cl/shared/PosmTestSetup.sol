@@ -2,14 +2,14 @@
 pragma solidity ^0.8.24;
 
 import "forge-std/Test.sol";
-import {IVault} from "infinity-core/src/interfaces/IVault.sol";
-import {Currency} from "infinity-core/src/types/Currency.sol";
-import {BalanceDelta} from "infinity-core/src/types/BalanceDelta.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {PoolManager} from "infinity-core/src/PoolManager.sol";
-import {Hooks} from "infinity-core/src/libraries/Hooks.sol";
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {Deployers} from "infinity-core/test/helpers/Deployers.sol";
+import {IVault} from "v4-core/src/interfaces/IVault.sol";
+import {Currency} from "v4-core/src/types/Currency.sol";
+import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {PoolManager} from "v4-core/src/PoolManager.sol";
+import {Hooks} from "v4-core/src/libraries/Hooks.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {Deployers} from "v4-core/test/helpers/Deployers.sol";
 import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {CLLiquidityOperations} from "./CLLiquidityOperations.sol";
@@ -18,13 +18,13 @@ import {DeployPermit2} from "permit2/test/utils/DeployPermit2.sol";
 import {HookSavesDelta} from "./HookSavesDelta.sol";
 import {HookModifyLiquidities} from "./HookModifyLiquidities.sol";
 import {ERC721PermitHash} from "../../../src/pool-cl/libraries/ERC721PermitHash.sol";
-import {CLPoolManagerRouter} from "infinity-core/test/helpers/CLPoolManagerRouter.sol";
+import {CLPoolManagerRouter} from "v4-core/test/helpers/CLPoolManagerRouter.sol";
 import {ICLPositionDescriptor} from "../../../src/pool-cl/interfaces/ICLPositionDescriptor.sol";
 import {CLPositionDescriptorOffChain} from "../../../src/pool-cl/CLPositionDescriptorOffChain.sol";
 import {IWETH9} from "../../../src/interfaces/external/IWETH9.sol";
 import {WETH} from "solmate/src/tokens/WETH.sol";
 
-/// @notice A shared test contract that wraps the infinity-core deployers contract and exposes basic liquidity operations on posm.
+/// @notice A shared test contract that wraps the v4-core deployers contract and exposes basic liquidity operations on posm.
 contract PosmTestSetup is Test, Deployers, DeployPermit2, CLLiquidityOperations {
     CLPoolManagerRouter router;
     Currency currency0;

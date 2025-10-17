@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
 
-import {PoolKey} from "infinity-core/src/types/PoolKey.sol";
-import {BaseCLTestHook} from "infinity-core/test/helpers/BaseCLTestHook.sol";
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
+import {PoolKey} from "v4-core/src/types/PoolKey.sol";
+import {BaseCLTestHook} from "v4-core/test/helpers/BaseCLTestHook.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
 
 /// @notice store hookData to verify hookData is passed to the hook
 contract MockCLMigratorHook is BaseCLTestHook {

@@ -2,12 +2,12 @@
 // Copyright (C) 2024 PancakeSwap
 pragma solidity 0.8.26;
 
-import {ICLPoolManager} from "infinity-core/src/interfaces/ICLPoolManager.sol";
-import {PoolId} from "infinity-core/src/types/PoolId.sol";
-import {Tick} from "infinity-core/src/libraries/Tick.sol";
-import {CLPosition} from "infinity-core/src/libraries/CLPosition.sol";
-import {FullMath} from "infinity-core/src/libraries/FullMath.sol";
-import {FixedPoint128} from "infinity-core/src/libraries/FixedPoint128.sol";
+import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
+import {PoolId} from "v4-core/src/types/PoolId.sol";
+import {Tick} from "v4-core/src/libraries/Tick.sol";
+import {CLPosition} from "v4-core/src/libraries/CLPosition.sol";
+import {FullMath} from "v4-core/src/libraries/FullMath.sol";
+import {FixedPoint128} from "v4-core/src/libraries/FixedPoint128.sol";
 
 /// @notice Helper contract to get the LP fees for a given position
 /// @dev warning: the value calculated through this contract might not exactly match the actual value received due to the potential charge from hooks contract

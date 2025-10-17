@@ -71,13 +71,13 @@ contract CLPositionDescriptorOffChainTest is Test {
     }
 
     function testSetBaseTokenURI() public {
-        clPositionDescriptorOffChain.setBaseTokenURI("https://pancakeswap.finance/swap/infinity/pool-cl/positions/");
+        clPositionDescriptorOffChain.setBaseTokenURI("https://sun.io/swap/v4/pool-cl/positions/");
         string memory tokenURI = clPositionDescriptorOffChain.tokenURI(ICLPositionManager(address(0)), 1);
-        assertEq(tokenURI, "https://pancakeswap.finance/swap/infinity/pool-cl/positions/1");
+        assertEq(tokenURI, "https://sun.io/swap/v4/pool-cl/positions/1");
 
-        clPositionDescriptorOffChain.setBaseTokenURI("https://pancakeswap.finance/");
+        clPositionDescriptorOffChain.setBaseTokenURI("https://sun.io/");
         tokenURI = clPositionDescriptorOffChain.tokenURI(ICLPositionManager(address(0)), 2);
-        assertEq(tokenURI, "https://pancakeswap.finance/2");
+        assertEq(tokenURI, "https://sun.io/2");
 
         clPositionDescriptorOffChain.setBaseTokenURI("");
         tokenURI = clPositionDescriptorOffChain.tokenURI(ICLPositionManager(address(0)), 3);

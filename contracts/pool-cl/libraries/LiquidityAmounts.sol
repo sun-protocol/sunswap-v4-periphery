@@ -2,8 +2,8 @@
 // Copyright (C) 2024 PancakeSwap
 pragma solidity ^0.8.0;
 
-import {FullMath} from "infinity-core/src/libraries/FullMath.sol";
-import {FixedPoint96} from "infinity-core/src/libraries/FixedPoint96.sol";
+import {FullMath} from "v4-core/src/libraries/FullMath.sol";
+import {FixedPoint96} from "v4-core/src/libraries/FixedPoint96.sol";
 
 import {SafeCastTemp as SafeCast} from "../../libraries/SafeCast.sol";
 

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// Copyright (C) 2024 PancakeSwap
+// Copyright (C) 2025 SunSwap
 pragma solidity ^0.8.0;
 
-import {IVault} from "infinity-core/src/interfaces/IVault.sol";
+import {IVault} from "v4-core/src/interfaces/IVault.sol";
 import {IImmutableState} from "../interfaces/IImmutableState.sol";
 
 /// @title Immutable State
