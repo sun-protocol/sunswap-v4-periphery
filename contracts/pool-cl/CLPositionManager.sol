@@ -201,16 +201,16 @@ contract CLPositionManager is
                 _settlePair(currency0, currency1);
                 return;
             } else if (action == Actions.TAKE_PAIR) {
-                (Currency currency0, Currency currency1, address recipient) = params.decodeCurrencyPairAndAddress();
-                _takePair(currency0, currency1, _mapRecipient(recipient));
+                (Currency currency0, Currency currency1) = params.decodeCurrencyPair();
+                _takePair(currency0, currency1, msgSender());
                 return;
             } else if (action == Actions.SETTLE) {
                 (Currency currency, uint256 amount, bool payerIsUser) = params.decodeCurrencyUint256AndBool();
                 _settle(currency, _mapPayer(payerIsUser), _mapSettleAmount(amount, currency));
                 return;
             } else if (action == Actions.TAKE) {
-                (Currency currency, address recipient, uint256 amount) = params.decodeCurrencyAddressAndUint256();
-                _take(currency, _mapRecipient(recipient), _mapTakeAmount(amount, currency));
+                (Currency currency, uint256 amount) = params.decodeCurrencyAndUint256();
+                _take(currency, msgSender(), _mapTakeAmount(amount, currency));
                 return;
             } else if (action == Actions.CLOSE_CURRENCY) {
                 Currency currency = params.decodeCurrency();
