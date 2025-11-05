@@ -17,7 +17,7 @@ module.exports = async ({
   const res = await deploy('CLQuoter', {
     from: deployer,
     gasLimit: 4000000,
-    args: ['0xD033B0fD1B38D9a8f04a8C2Adc55b91c288930b1'],//
+    args: ['0x60FD86BC6BA0A2131CC92DC9B637BEC98159BAE8'],//
     tags: 'lumi3',
   });
   console.log(res)
