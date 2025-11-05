@@ -1,6 +1,6 @@
 {
   "CLMigratorBytecode size": "16104",
-  "testCLMigrateFromV3IncludingInit": "767308",
-  "testCLMigrateFromV3WithoutInit": "607721",
-  "testCLMigrateFromV3WithoutNativeToken": "653672"
+  "testCLMigrateFromV3IncludingInit": "767296",
+  "testCLMigrateFromV3WithoutInit": "607709",
+  "testCLMigrateFromV3WithoutNativeToken": "653660"
 }
