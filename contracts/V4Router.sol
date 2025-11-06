@@ -23,10 +23,7 @@ abstract contract V4Router is IV4Router, CLRouterBase, BaseActionsRouter {
     using CalldataDecoder for bytes;
     using CLCalldataDecoder for bytes;
 
-    constructor(IVault _vault, ICLPoolManager _clPoolManager)
-        BaseActionsRouter(_vault)
-        CLRouterBase(_clPoolManager)
-    {}
+    constructor(IVault _vault, ICLPoolManager _clPoolManager) BaseActionsRouter(_vault) CLRouterBase(_clPoolManager) {}
 
     function _handleAction(uint256 action, bytes calldata params) internal override {
         // swap actions and payment actions in different blocks for gas efficiency
@@ -36,8 +33,7 @@ abstract contract V4Router is IV4Router, CLRouterBase, BaseActionsRouter {
                 _swapExactInput(swapParams);
                 return;
             } else if (action == Actions.CL_SWAP_EXACT_IN_SINGLE) {
-                IV4Router.CLSwapExactInputSingleParams calldata swapParams =
-                    params.decodeCLSwapExactInSingleParams();
+                IV4Router.CLSwapExactInputSingleParams calldata swapParams = params.decodeCLSwapExactInSingleParams();
                 _swapExactInputSingle(swapParams);
                 return;
             } else if (action == Actions.CL_SWAP_EXACT_OUT) {
@@ -45,8 +41,7 @@ abstract contract V4Router is IV4Router, CLRouterBase, BaseActionsRouter {
                 _swapExactOutput(swapParams);
                 return;
             } else if (action == Actions.CL_SWAP_EXACT_OUT_SINGLE) {
-                IV4Router.CLSwapExactOutputSingleParams calldata swapParams =
-                    params.decodeCLSwapExactOutSingleParams();
+                IV4Router.CLSwapExactOutputSingleParams calldata swapParams = params.decodeCLSwapExactOutSingleParams();
                 _swapExactOutputSingle(swapParams);
                 return;
             }
@@ -68,12 +63,12 @@ abstract contract V4Router is IV4Router, CLRouterBase, BaseActionsRouter {
                 _settle(currency, _mapPayer(payerIsUser), _mapSettleAmount(amount, currency));
                 return;
             } else if (action == Actions.TAKE) {
-                (Currency currency, address recipient, uint256 amount) = params.decodeCurrencyAddressAndUint256();
-                _take(currency, _mapRecipient(recipient), _mapTakeAmount(amount, currency));
+                (Currency currency, uint256 amount) = params.decodeCurrencyAndUint256();
+                _take(currency, msgSender(), _mapTakeAmount(amount, currency));
                 return;
             } else if (action == Actions.TAKE_PORTION) {
-                (Currency currency, address recipient, uint256 bips) = params.decodeCurrencyAddressAndUint256();
-                _take(currency, _mapRecipient(recipient), _getFullCredit(currency).calculatePortion(bips));
+                (Currency currency, uint256 bips) = params.decodeCurrencyAndUint256();
+                _take(currency, msgSender(), _getFullCredit(currency).calculatePortion(bips));
                 return;
             }
         }

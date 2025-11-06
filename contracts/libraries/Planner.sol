@@ -38,13 +38,13 @@ library Planner {
         return plan;
     }
 
-    function finalizeModifyLiquidityWithTake(Plan memory plan, PoolKey memory poolKey, address takeRecipient)
+    function finalizeModifyLiquidityWithTake(Plan memory plan, PoolKey memory poolKey)
         internal
         pure
         returns (bytes memory)
     {
-        plan.add(Actions.TAKE, abi.encode(poolKey.currency0, takeRecipient, ActionConstants.OPEN_DELTA));
-        plan.add(Actions.TAKE, abi.encode(poolKey.currency1, takeRecipient, ActionConstants.OPEN_DELTA));
+        plan.add(Actions.TAKE, abi.encode(poolKey.currency0, ActionConstants.OPEN_DELTA));
+        plan.add(Actions.TAKE, abi.encode(poolKey.currency1, ActionConstants.OPEN_DELTA));
         return plan.encode();
     }
 
@@ -67,12 +67,12 @@ library Planner {
         return plan.encode();
     }
 
-    function finalizeModifyLiquidityWithTakePair(Plan memory plan, PoolKey memory poolKey, address takeRecipient)
+    function finalizeModifyLiquidityWithTakePair(Plan memory plan, PoolKey memory poolKey)
         internal
         pure
         returns (bytes memory)
     {
-        plan.add(Actions.TAKE_PAIR, abi.encode(poolKey.currency0, poolKey.currency1, takeRecipient));
+        plan.add(Actions.TAKE_PAIR, abi.encode(poolKey.currency0, poolKey.currency1));
         return plan.encode();
     }
 
@@ -91,7 +91,7 @@ library Planner {
             plan = plan.add(Actions.TAKE_ALL, abi.encode(outputCurrency, 0));
         } else {
             plan = plan.add(Actions.SETTLE, abi.encode(inputCurrency, ActionConstants.OPEN_DELTA, true));
-            plan = plan.add(Actions.TAKE, abi.encode(outputCurrency, takeRecipient, ActionConstants.OPEN_DELTA));
+            plan = plan.add(Actions.TAKE, abi.encode(outputCurrency, ActionConstants.OPEN_DELTA));
         }
         return plan.encode();
     }
