@@ -10,18 +10,18 @@ import {PoolManager} from "v4-core/src/PoolManager.sol";
 import {Hooks} from "v4-core/src/libraries/Hooks.sol";
 import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 import {Deployers} from "v4-core/test/helpers/Deployers.sol";
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {CLLiquidityOperations} from "./CLLiquidityOperations.sol";
 import {IAllowanceTransfer} from "permit2/src/interfaces/IAllowanceTransfer.sol";
 import {DeployPermit2} from "permit2/test/utils/DeployPermit2.sol";
 import {HookSavesDelta} from "./HookSavesDelta.sol";
 import {HookModifyLiquidities} from "./HookModifyLiquidities.sol";
-import {ERC721PermitHash} from "../../../src/pool-cl/libraries/ERC721PermitHash.sol";
+import {ERC721PermitHash} from "src/pool-cl/libraries/ERC721PermitHash.sol";
 import {CLPoolManagerRouter} from "v4-core/test/helpers/CLPoolManagerRouter.sol";
-import {ICLPositionDescriptor} from "../../../src/pool-cl/interfaces/ICLPositionDescriptor.sol";
-import {CLPositionDescriptorOffChain} from "../../../src/pool-cl/CLPositionDescriptorOffChain.sol";
-import {IWETH9} from "../../../src/interfaces/external/IWETH9.sol";
+import {ICLPositionDescriptor} from "src/pool-cl/interfaces/ICLPositionDescriptor.sol";
+import {CLPositionDescriptorOffChain} from "src/pool-cl/CLPositionDescriptorOffChain.sol";
+import {IWETH9} from "src/interfaces/external/IWETH9.sol";
 import {WETH} from "solmate/src/tokens/WETH.sol";
 
 /// @notice A shared test contract that wraps the v4-core deployers contract and exposes basic liquidity operations on posm.

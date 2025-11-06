@@ -15,12 +15,12 @@ import {CLPoolManagerRouter} from "v4-core/test/helpers/CLPoolManagerRouter.sol"
 import {CLPool} from "v4-core/src/libraries/CLPool.sol";
 import {TokenFixture} from "../helpers/TokenFixture.sol";
 import {MockV4Router} from "../mocks/MockV4Router.sol";
-import {IV4Router} from "../../src/interfaces/IV4Router.sol";
-import {ICLRouterBase} from "../../src/pool-cl/interfaces/ICLRouterBase.sol";
-import {PathKey} from "../../src/libraries/PathKey.sol";
-import {Plan, Planner} from "../../src/libraries/Planner.sol";
-import {Actions} from "../../src/libraries/Actions.sol";
-import {ActionConstants} from "../../src/libraries/ActionConstants.sol";
+import {IV4Router} from "src/interfaces/IV4Router.sol";
+import {ICLRouterBase} from "src/pool-cl/interfaces/ICLRouterBase.sol";
+import {PathKey} from "src/libraries/PathKey.sol";
+import {Plan, Planner} from "src/libraries/Planner.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {ActionConstants} from "src/libraries/ActionConstants.sol";
 
 contract CLSwapRouterTest is TokenFixture, Test {
     IVault public vault;
@@ -182,7 +182,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
     }
 
     function testExactInputSingle_zeroForOne() external {
-        address recipient = makeAddr("recipient");
+        address recipient =address(this);
         uint256 recipientBalanceBefore = IERC20(Currency.unwrap(poolKey0.currency1)).balanceOf(recipient);
         ICLRouterBase.CLSwapExactInputSingleParams memory params =
             ICLRouterBase.CLSwapExactInputSingleParams(poolKey0, true, 0.01 ether, 0, bytes(""));
@@ -197,7 +197,7 @@ contract CLSwapRouterTest is TokenFixture, Test {
     }
 
     function testExactInputSingle_oneForZero() external {
-        address recipient = makeAddr("recipient");
+        address recipient = address(this);
         uint256 recipientBalanceBefore = IERC20(Currency.unwrap(poolKey0.currency0)).balanceOf(recipient);
         ICLRouterBase.CLSwapExactInputSingleParams memory params =
             ICLRouterBase.CLSwapExactInputSingleParams(poolKey0, false, 1 ether, 0, bytes(""));
@@ -253,16 +253,16 @@ contract CLSwapRouterTest is TokenFixture, Test {
         });
 
         address recipient = makeAddr("recipient");
-        uint256 recipientBalanceBefore = IERC20(Currency.unwrap(currency2)).balanceOf(recipient);
+        uint256 recipientBalanceBefore = IERC20(Currency.unwrap(currency2)).balanceOf(address(this));
         ICLRouterBase.CLSwapExactInputParams memory params =
             ICLRouterBase.CLSwapExactInputParams(currency0, path, 0.01 ether, 0);
 
         plan = plan.add(Actions.CL_SWAP_EXACT_IN, abi.encode(params));
-        bytes memory data = plan.finalizeSwap(currency0, currency2, recipient);
+        bytes memory data = plan.finalizeSwap(currency0, currency2, address(this));
 
         router.executeActions(data);
 
-        uint256 recipientBalanceAfter = IERC20(Currency.unwrap(currency2)).balanceOf(recipient);
+        uint256 recipientBalanceAfter = IERC20(Currency.unwrap(currency2)).balanceOf(address(this));
         assertEq(recipientBalanceAfter - recipientBalanceBefore, 993989209585378125);
     }
 

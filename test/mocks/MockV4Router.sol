@@ -4,8 +4,8 @@ pragma solidity ^0.8.19;
 import {IVault} from "v4-core/src/interfaces/IVault.sol";
 import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
 import {Currency, CurrencyLibrary} from "v4-core/src/types/Currency.sol";
-import {V4Router} from "../../src/V4Router.sol";
-import {ReentrancyLock} from "../../src/base/ReentrancyLock.sol";
+import {V4Router} from "src/V4Router.sol";
+import {ReentrancyLock} from "src/base/ReentrancyLock.sol";
 import {SafeTransferLib} from "solmate/src/utils/SafeTransferLib.sol";
 import {ERC20} from "solmate/src/tokens/ERC20.sol";
 

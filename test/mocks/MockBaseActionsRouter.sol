@@ -3,8 +3,8 @@ pragma solidity ^0.8.20;
 
 import {Currency} from "v4-core/src/types/Currency.sol";
 import {IVault} from "v4-core/src/interfaces/IVault.sol";
-import {BaseActionsRouter} from "../../src/base/BaseActionsRouter.sol";
-import {Actions} from "../../src/libraries/Actions.sol";
+import {BaseActionsRouter} from "src/base/BaseActionsRouter.sol";
+import {Actions} from "src/libraries/Actions.sol";
 
 contract MockBaseActionsRouter is BaseActionsRouter {
     uint256 public clSwapCount;

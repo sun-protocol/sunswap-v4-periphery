@@ -3,9 +3,9 @@ pragma solidity ^0.8.24;
 
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {V3SmartRouterHelper} from "../../src/libraries/external/V3SmartRouterHelper.sol";
-import {ISunSwapV3Factory} from "../../src/interfaces/external/ISunSwapV3Factory.sol";
-import {ISunSwapV3Pool} from "../../src/interfaces/external/ISunSwapV3Pool.sol";
+import {V3SmartRouterHelper} from "src/libraries/external/V3SmartRouterHelper.sol";
+import {ISunSwapV3Factory} from "src/interfaces/external/ISunSwapV3Factory.sol";
+import {ISunSwapV3Pool} from "src/interfaces/external/ISunSwapV3Pool.sol";
 
 /// @dev A mock SunSwapV3Router contract that can be used to test v3 swap.
 /// @dev Only support exactInputSingle for now.

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
 
 contract ReentrantToken is MockERC20 {
     ICLPositionManager immutable posm;

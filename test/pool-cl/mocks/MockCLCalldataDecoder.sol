@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {CLCalldataDecoder} from "../../../src/pool-cl/libraries/CLCalldataDecoder.sol";
-import {IV4Router} from "../../../src/interfaces/IV4Router.sol";
+import {CLCalldataDecoder} from "src/pool-cl/libraries/CLCalldataDecoder.sol";
+import {IV4Router} from "src/interfaces/IV4Router.sol";
 import {Currency} from "v4-core/src/types/Currency.sol";
 import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
-import {UnorderedNonce} from "../../src/pool-cl/base/UnorderedNonce.sol";
+import {UnorderedNonce} from "src/pool-cl/base/UnorderedNonce.sol";
 import {MockUnorderedNonce} from "./mocks/MockUnorderedNonce.sol";
 
 contract UnorderedNonceTest is Test {

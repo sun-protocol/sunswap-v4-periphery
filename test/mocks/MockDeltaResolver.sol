@@ -4,8 +4,8 @@ pragma solidity ^0.8.24;
 import {Currency, CurrencyLibrary} from "v4-core/src/types/Currency.sol";
 import {IVault} from "v4-core/src/interfaces/IVault.sol";
 import {ILockCallback} from "v4-core/src/interfaces/ILockCallback.sol";
-import {DeltaResolver} from "../../src/base/DeltaResolver.sol";
-import {ImmutableState} from "../../src/base/ImmutableState.sol";
+import {DeltaResolver} from "src/base/DeltaResolver.sol";
+import {ImmutableState} from "src/base/ImmutableState.sol";
 import {ERC20} from "solmate/src/tokens/ERC20.sol";
 import {Test} from "forge-std/Test.sol";
 

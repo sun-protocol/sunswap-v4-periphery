@@ -13,16 +13,16 @@ import {IVault} from "v4-core/src/interfaces/IVault.sol";
 import {PoolId} from "v4-core/src/types/PoolId.sol";
 
 import {Hooks} from "v4-core/src/libraries/Hooks.sol";
-import {IPositionManager} from "../../../src/interfaces/IPositionManager.sol";
+import {IPositionManager} from "src/interfaces/IPositionManager.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
 import {MockCLSubscriber} from "../mocks/MockCLSubscriber.sol";
-import {ICLSubscriber} from "../../../src/pool-cl/interfaces/ICLSubscriber.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {Plan, Planner} from "../../../src/libraries/Planner.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
-import {ICLNotifier} from "../../../src/pool-cl/interfaces/ICLNotifier.sol";
+import {ICLSubscriber} from "src/pool-cl/interfaces/ICLSubscriber.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {Plan, Planner} from "src/libraries/Planner.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {ICLNotifier} from "src/pool-cl/interfaces/ICLNotifier.sol";
 import {MockCLReturnDataSubscriber, MockCLRevertSubscriber} from "../mocks/MockCLBadSubscribers.sol";
-import {CLPositionInfo, CLPositionInfoLibrary} from "../../../src/pool-cl/libraries/CLPositionInfoLibrary.sol";
+import {CLPositionInfo, CLPositionInfoLibrary} from "src/pool-cl/libraries/CLPositionInfoLibrary.sol";
 import {MockCLReenterHook} from "../mocks/MockCLReenterHook.sol";
 import {CustomRevert} from "v4-core/src/libraries/CustomRevert.sol";
 

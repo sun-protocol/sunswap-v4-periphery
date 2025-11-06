@@ -6,9 +6,9 @@ import {Currency} from "v4-core/src/types/Currency.sol";
 import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 
 import {MockCalldataDecoder} from "../mocks/MockCalldataDecoder.sol";
-import {IV4Router} from "../../src/interfaces/IV4Router.sol";
-import {PathKey} from "../../src/libraries/PathKey.sol";
-import {CalldataDecoder} from "../../src/libraries/CalldataDecoder.sol";
+import {IV4Router} from "src/interfaces/IV4Router.sol";
+import {PathKey} from "src/libraries/PathKey.sol";
+import {CalldataDecoder} from "src/libraries/CalldataDecoder.sol";
 
 contract CalldataDecoderTest is Test {
     MockCalldataDecoder decoder;

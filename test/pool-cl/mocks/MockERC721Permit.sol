@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity ^0.8.20;
 
-import {ERC721Permit} from "../../../src/pool-cl/base/ERC721Permit.sol";
+import {ERC721Permit} from "src/pool-cl/base/ERC721Permit.sol";
 
 contract MockERC721Permit is ERC721Permit {
     uint256 public lastTokenId;

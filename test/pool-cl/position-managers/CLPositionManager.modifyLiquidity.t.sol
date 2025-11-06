@@ -18,27 +18,27 @@ import {IVault} from "v4-core/src/interfaces/IVault.sol";
 import {CLPosition} from "v4-core/src/libraries/CLPosition.sol";
 import {Tick} from "v4-core/src/libraries/Tick.sol";
 import {SafeCast} from "v4-core/src/libraries/SafeCast.sol";
-import {SafeCastTemp} from "../../../src/libraries/SafeCast.sol";
+import {SafeCastTemp} from "src/libraries/SafeCast.sol";
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {IERC721} from "@openzeppelin/contracts/interfaces/IERC721.sol";
 import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
 
-import {ReentrancyLock} from "../../../src/base/ReentrancyLock.sol";
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
-import {DeltaResolver} from "../../../src/base/DeltaResolver.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
-import {Planner, Plan} from "../../../src/libraries/Planner.sol";
+import {ReentrancyLock} from "src/base/ReentrancyLock.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
+import {DeltaResolver} from "src/base/DeltaResolver.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 import {FeeMath} from "../shared/FeeMath.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
-import {ActionConstants} from "../../../src/libraries/ActionConstants.sol";
+import {ActionConstants} from "src/libraries/ActionConstants.sol";
 import {CustomRevert} from "v4-core/src/libraries/CustomRevert.sol";
 import {LiquidityFuzzers} from "../shared/fuzz/LiquidityFuzzers.sol";
 import {MockFOT} from "../../mocks/MockFeeOnTransfer.sol";
 import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelper.sol";
-import {BipsLibrary} from "../../../src/libraries/BipsLibrary.sol";
+import {BipsLibrary} from "src/libraries/BipsLibrary.sol";
 
 contract CLPositionManagerModifyLiquiditiesTest is Test, PosmTestSetup, LiquidityFuzzers {
     using CLPoolParametersHelper for bytes32;

@@ -8,7 +8,7 @@ import {IHooks} from "v4-core/src/interfaces/IHooks.sol";
 import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
 import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
 import {IAllowanceTransfer} from "permit2/src/interfaces/IAllowanceTransfer.sol";
-import {ICLMigrator,IBaseMigrator} from "../../src/pool-cl/interfaces/ICLMigrator.sol";
+import {ICLMigrator,IBaseMigrator} from "src/pool-cl/interfaces/ICLMigrator.sol";
 
 /// @title MockReentrantPositionManager
 /// @notice This contract is used to test reentrancy in PositionManager

@@ -9,9 +9,9 @@ import {Fuzzers} from "v4-core/test/helpers/Fuzzers.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelper.sol";
 
-import {ICLPositionManager} from "../../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {Actions} from "../../../../src/libraries/Actions.sol";
-import {Planner, Plan} from "../../../../src/libraries/Planner.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 
 contract LiquidityFuzzers is Fuzzers {
     using CLPoolParametersHelper for bytes32;

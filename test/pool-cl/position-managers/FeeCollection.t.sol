@@ -16,7 +16,7 @@ import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {LiquidityFuzzers} from "../shared/fuzz/LiquidityFuzzers.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
 import {FeeMath} from "../shared/FeeMath.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
 
 contract FeeCollectionTest is Test, PosmTestSetup, LiquidityFuzzers {
     using FixedPointMathLib for uint256;

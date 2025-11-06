@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity ^0.8.20;
 
-import {ICLSubscriber} from "../../../src/pool-cl/interfaces/ICLSubscriber.sol";
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
+import {ICLSubscriber} from "src/pool-cl/interfaces/ICLSubscriber.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
 import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
-import {CLPositionInfo} from "../../../src/pool-cl/libraries/CLPositionInfoLibrary.sol";
+import {CLPositionInfo} from "src/pool-cl/libraries/CLPositionInfoLibrary.sol";
 
 /// @notice A subscriber contract that ingests updates from the v4 position manager
 contract MockCLSubscriber is ICLSubscriber {

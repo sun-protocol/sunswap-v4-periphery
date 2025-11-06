@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 
 import {IVault, PoolManager} from "v4-core/src/PoolManager.sol";
 
-import {SafeCallback} from "../src/base/SafeCallback.sol";
+import {SafeCallback} from "src/base/SafeCallback.sol";
 import {MockSafeCallback} from "./mocks/MockSafeCallback.sol";
 
 contract SafeCallbackTest is Test {

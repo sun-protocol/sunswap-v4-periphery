@@ -12,7 +12,7 @@ import {BalanceDelta, BalanceDeltaLibrary} from "v4-core/src/types/BalanceDelta.
 import {HookSavesDelta} from "./HookSavesDelta.sol";
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
 
 /// @notice This contract is NOT a production use contract. It is meant to be used in testing to verify that external contracts can modify liquidity without a lock (IPositionManager.modifyLiquiditiesWithoutUnlock)
 /// @dev a hook that can modify liquidity in beforeSwap

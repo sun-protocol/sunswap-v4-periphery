@@ -2,11 +2,11 @@
 pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
-import {CLPositionDescriptorOffChain} from "../../src/pool-cl/CLPositionDescriptorOffChain.sol";
-import {ICLPositionManager} from "../../src/pool-cl/interfaces/ICLPositionManager.sol";
+import {CLPositionDescriptorOffChain} from "src/pool-cl/CLPositionDescriptorOffChain.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {ICLPositionDescriptor} from "../../src/pool-cl/interfaces/ICLPositionDescriptor.sol";
+import {ICLPositionDescriptor} from "src/pool-cl/interfaces/ICLPositionDescriptor.sol";
 
 contract FakeTokenURIContract is ICLPositionDescriptor {
     function tokenURI(ICLPositionManager positionManager, uint256 tokenId)

@@ -17,9 +17,9 @@ import {TickBitmap} from "v4-core/src/libraries/TickBitmap.sol";
 import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelper.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {TokenFixture} from "../helpers/TokenFixture.sol";
-import {Plan, Planner} from "../../src/libraries/Planner.sol";
-import {ITickLens} from "../../src/pool-cl/interfaces/ITickLens.sol";
-import {TickLens} from "../../src/pool-cl/lens/TickLens.sol";
+import {Plan, Planner} from "src/libraries/Planner.sol";
+import {ITickLens} from "src/pool-cl/interfaces/ITickLens.sol";
+import {TickLens} from "src/pool-cl/lens/TickLens.sol";
 
 contract TickLensTest is TokenFixture, Test {
     using PoolIdLibrary for PoolId;

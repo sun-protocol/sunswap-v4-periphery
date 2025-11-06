@@ -18,15 +18,15 @@ import {Fuzzers} from "v4-core/test/helpers/Fuzzers.sol";
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
-import {DeltaResolver} from "../../../src/base/DeltaResolver.sol";
-import {SlippageCheck} from "../../../src/libraries/SlippageCheck.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
-import {Planner, Plan} from "../../../src/libraries/Planner.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
+import {DeltaResolver} from "src/base/DeltaResolver.sol";
+import {SlippageCheck} from "src/libraries/SlippageCheck.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 import {FeeMath} from "../shared/FeeMath.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
-import {ActionConstants} from "../../../src/libraries/ActionConstants.sol";
+import {ActionConstants} from "src/libraries/ActionConstants.sol";
 
 contract CLPositionManagerIncreaseLiquidityTest is Test, PosmTestSetup, Fuzzers {
     using FixedPointMathLib for uint256;
@@ -120,7 +120,7 @@ contract CLPositionManagerIncreaseLiquidityTest is Test, PosmTestSetup, Fuzzers 
                 tokenIdAlice, liquidityDelta, feesOwedAlice.amount0() / 2, feesOwedAlice.amount1() / 2, ZERO_BYTES
             )
         );
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(key, address(alice));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(key);
         vm.startPrank(alice);
         lpm.modifyLiquidities(calls, _deadline);
         vm.stopPrank();

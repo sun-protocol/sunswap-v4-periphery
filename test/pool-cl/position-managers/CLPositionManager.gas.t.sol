@@ -20,16 +20,16 @@ import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelp
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 
-import {IMulticall} from "../../../src/interfaces/IMulticall.sol";
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
-import {IPositionManager} from "../../../src/interfaces/IPositionManager.sol";
-import {DeltaResolver} from "../../../src/base/DeltaResolver.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
-import {Planner, Plan} from "../../../src/libraries/Planner.sol";
+import {IMulticall} from "src/interfaces/IMulticall.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
+import {IPositionManager} from "src/interfaces/IPositionManager.sol";
+import {DeltaResolver} from "src/base/DeltaResolver.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 import {FeeMath} from "../shared/FeeMath.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
-import {ActionConstants} from "../../../src/libraries/ActionConstants.sol";
+import {ActionConstants} from "src/libraries/ActionConstants.sol";
 import {MockCLSubscriber} from "../mocks/MockCLSubscriber.sol";
 
 contract CLPositionManagerGasTest is Test, PosmTestSetup {
@@ -385,7 +385,7 @@ contract CLPositionManagerGasTest is Test, PosmTestSetup {
             abi.encode(tokenId, 10_000 ether, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
 
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(key, address(this));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(key);
         lpm.modifyLiquidities(calls, _deadline);
         vm.snapshotGasLastCall("test_gas_decreaseLiquidity_withTakePair");
     }
@@ -456,7 +456,7 @@ contract CLPositionManagerGasTest is Test, PosmTestSetup {
             abi.encode(tokenId, 0, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
 
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(key, address(this));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(key);
         lpm.modifyLiquidities(calls, _deadline);
         vm.snapshotGasLastCall("test_gas_collect_withTakePair");
     }
@@ -545,7 +545,7 @@ contract CLPositionManagerGasTest is Test, PosmTestSetup {
         Plan memory planner = Planner.init().add(
             Actions.CL_BURN_POSITION, abi.encode(tokenId, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(key, address(this));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(key);
 
         lpm.modifyLiquidities(calls, _deadline);
         vm.snapshotGasLastCall("test_gas_burn_nonEmptyPosition_withTakePair");
@@ -717,7 +717,7 @@ contract CLPositionManagerGasTest is Test, PosmTestSetup {
         Plan memory planner = Planner.init().add(
             Actions.CL_BURN_POSITION, abi.encode(tokenId, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey, address(this));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey);
 
         lpm.modifyLiquidities(calls, _deadline);
         vm.snapshotGasLastCall("test_gas_burn_nonEmptyPosition_native_withTakePair");
@@ -873,7 +873,7 @@ contract CLPositionManagerGasTest is Test, PosmTestSetup {
             Actions.CL_DECREASE_LIQUIDITY,
             abi.encode(tokenId, 1e18, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
-        bytes memory calls = plan.finalizeModifyLiquidityWithTake(key, ActionConstants.MSG_SENDER);
+        bytes memory calls = plan.finalizeModifyLiquidityWithTake(key);
 
         lpm.modifyLiquidities(calls, _deadline);
         vm.snapshotGasLastCall("test_gas_decrease_take_take");

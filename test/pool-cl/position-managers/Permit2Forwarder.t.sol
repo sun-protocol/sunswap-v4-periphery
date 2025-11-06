@@ -13,7 +13,7 @@ import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 import {IHooks} from "v4-core/src/interfaces/IHooks.sol";
 
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
-import {Permit2Forwarder} from "../../../src/base/Permit2Forwarder.sol";
+import {Permit2Forwarder} from "src/base/Permit2Forwarder.sol";
 import {Permit2SignatureHelpers} from "../../shared/Permit2SignatureHelpers.sol";
 
 contract Permit2ForwarderTest is Test, PosmTestSetup, Permit2SignatureHelpers {

@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
 import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 import {BaseCLTestHook} from "v4-core/test/helpers/BaseCLTestHook.sol";
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
 
 contract MockCLReenterHook is BaseCLTestHook {
     CLPositionManager posm;

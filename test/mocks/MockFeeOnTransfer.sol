@@ -2,8 +2,8 @@
 pragma solidity ^0.8.20;
 
 import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
-import {IPositionManager} from "../../src/interfaces/IPositionManager.sol";
-import {BipsLibrary} from "../../src/libraries/BipsLibrary.sol";
+import {IPositionManager} from "src/interfaces/IPositionManager.sol";
+import {BipsLibrary} from "src/libraries/BipsLibrary.sol";
 
 contract MockFOT is MockERC20 {
     using BipsLibrary for uint256;

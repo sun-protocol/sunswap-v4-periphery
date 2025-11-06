@@ -7,10 +7,10 @@ import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 import {PoolId} from "v4-core/src/types/PoolId.sol";
 
 import {MockCLCalldataDecoder} from "../mocks/MockCLCalldataDecoder.sol";
-import {CalldataDecoder} from "../../../src/libraries/CalldataDecoder.sol";
-import {IV4Router} from "../../../src/interfaces/IV4Router.sol";
-import {ICLRouterBase} from "../../../src/pool-cl/interfaces/ICLRouterBase.sol";
-import {PathKey} from "../../../src/libraries/PathKey.sol";
+import {CalldataDecoder} from "src/libraries/CalldataDecoder.sol";
+import {IV4Router} from "src/interfaces/IV4Router.sol";
+import {ICLRouterBase} from "src/pool-cl/interfaces/ICLRouterBase.sol";
+import {PathKey} from "src/libraries/PathKey.sol";
 
 contract CLCalldataDecoderTest is Test {
     MockCLCalldataDecoder decoder;

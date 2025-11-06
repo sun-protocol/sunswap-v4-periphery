@@ -21,21 +21,21 @@ import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelp
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {MockCLSubscriber} from "../mocks/MockCLSubscriber.sol";
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
-import {IPositionManager} from "../../../src/interfaces/IPositionManager.sol";
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
-import {DeltaResolver} from "../../../src/base/DeltaResolver.sol";
-import {SlippageCheck} from "../../../src/libraries/SlippageCheck.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
-import {Planner, Plan} from "../../../src/libraries/Planner.sol";
+import {IPositionManager} from "src/interfaces/IPositionManager.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
+import {DeltaResolver} from "src/base/DeltaResolver.sol";
+import {SlippageCheck} from "src/libraries/SlippageCheck.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 import {FeeMath} from "../shared/FeeMath.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
-import {ActionConstants} from "../../../src/libraries/ActionConstants.sol";
+import {ActionConstants} from "src/libraries/ActionConstants.sol";
 import {LiquidityFuzzers} from "../shared/fuzz/LiquidityFuzzers.sol";
-import {BaseActionsRouter} from "../../../src/base/BaseActionsRouter.sol";
+import {BaseActionsRouter} from "src/base/BaseActionsRouter.sol";
 import {ReentrantToken} from "../mocks/ReentrantToken.sol";
-import {ICLSubscriber} from "../../../src/pool-cl/interfaces/ICLSubscriber.sol";
-import {CLPositionDescriptorOffChain} from "../../../src/pool-cl/CLPositionDescriptorOffChain.sol";
+import {ICLSubscriber} from "src/pool-cl/interfaces/ICLSubscriber.sol";
+import {CLPositionDescriptorOffChain} from "src/pool-cl/CLPositionDescriptorOffChain.sol";
 
 contract PositionManagerTest is Test, PosmTestSetup, LiquidityFuzzers {
     using FixedPointMathLib for uint256;
@@ -928,7 +928,7 @@ contract PositionManagerTest is Test, PosmTestSetup, LiquidityFuzzers {
             Actions.CL_DECREASE_LIQUIDITY,
             abi.encode(tokenId, 1e18, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
-        bytes memory calls = plan.finalizeModifyLiquidityWithTake(key, ActionConstants.MSG_SENDER);
+        bytes memory calls = plan.finalizeModifyLiquidityWithTake(key);
 
         lpm.modifyLiquidities(calls, _deadline);
         BalanceDelta delta = getLastDelta();
@@ -965,7 +965,7 @@ contract PositionManagerTest is Test, PosmTestSetup, LiquidityFuzzers {
         );
         plan.add(Actions.TAKE, abi.encode(key.currency0, ActionConstants.MSG_SENDER, ActionConstants.OPEN_DELTA));
         plan.add(Actions.SETTLE, abi.encode(key.currency1, ActionConstants.OPEN_DELTA, true));
-        bytes memory calls = plan.finalizeModifyLiquidityWithTake(key, ActionConstants.MSG_SENDER);
+        bytes memory calls = plan.finalizeModifyLiquidityWithTake(key);
 
         lpm.modifyLiquidities(calls, _deadline);
         BalanceDelta deltaDecrease = hook.deltas(0);

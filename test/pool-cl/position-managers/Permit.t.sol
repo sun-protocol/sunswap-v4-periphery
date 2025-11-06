@@ -14,11 +14,11 @@ import {SignatureVerification} from "permit2/src/libraries/SignatureVerification
 import {IVault} from "v4-core/src/interfaces/IVault.sol";
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
-import {IERC721Permit} from "../../../src/pool-cl/interfaces/IERC721Permit.sol";
-import {ERC721Permit} from "../../../src/pool-cl/base/ERC721Permit.sol";
-import {UnorderedNonce} from "../../../src/pool-cl/base/UnorderedNonce.sol";
+import {IERC721Permit} from "src/pool-cl/interfaces/IERC721Permit.sol";
+import {ERC721Permit} from "src/pool-cl/base/ERC721Permit.sol";
+import {UnorderedNonce} from "src/pool-cl/base/UnorderedNonce.sol";
 
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
 
 contract PermitTest is Test, PosmTestSetup {

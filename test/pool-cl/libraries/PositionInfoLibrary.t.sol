@@ -3,7 +3,7 @@ pragma solidity ^0.8.24;
 
 import "forge-std/Test.sol";
 import {PoolKey} from "v4-core/src/types/PoolKey.sol";
-import {CLPositionInfo, CLPositionInfoLibrary, PoolId} from "../../../src/pool-cl/libraries/CLPositionInfoLibrary.sol";
+import {CLPositionInfo, CLPositionInfoLibrary, PoolId} from "src/pool-cl/libraries/CLPositionInfoLibrary.sol";
 
 contract PositionInfoLibraryTest is Test {
     using CLPositionInfoLibrary for CLPositionInfo;

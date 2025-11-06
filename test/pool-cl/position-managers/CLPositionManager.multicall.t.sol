@@ -20,20 +20,20 @@ import {CLPoolParametersHelper} from "v4-core/src/libraries/CLPoolParametersHelp
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 
-import {IERC721Permit} from "../../../src/pool-cl/base/ERC721Permit.sol";
-import {IMulticall} from "../../../src/interfaces/IMulticall.sol";
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
-import {IPositionManager} from "../../../src/interfaces/IPositionManager.sol";
-import {DeltaResolver} from "../../../src/base/DeltaResolver.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
-import {Planner, Plan} from "../../../src/libraries/Planner.sol";
+import {IERC721Permit} from "src/pool-cl/base/ERC721Permit.sol";
+import {IMulticall} from "src/interfaces/IMulticall.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
+import {IPositionManager} from "src/interfaces/IPositionManager.sol";
+import {DeltaResolver} from "src/base/DeltaResolver.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 import {FeeMath} from "../shared/FeeMath.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
-import {ActionConstants} from "../../../src/libraries/ActionConstants.sol";
+import {ActionConstants} from "src/libraries/ActionConstants.sol";
 import {Permit2SignatureHelpers} from "../../shared/Permit2SignatureHelpers.sol";
 import {LiquidityFuzzers} from "../shared/fuzz/LiquidityFuzzers.sol";
-import {Permit2Forwarder} from "../../../src/base/Permit2Forwarder.sol";
+import {Permit2Forwarder} from "src/base/Permit2Forwarder.sol";
 
 contract CLPositionManagerMulticallTest is Test, Permit2SignatureHelpers, PosmTestSetup, LiquidityFuzzers {
     using FixedPointMathLib for uint256;

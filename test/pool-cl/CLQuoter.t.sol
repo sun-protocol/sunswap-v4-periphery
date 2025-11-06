@@ -3,10 +3,10 @@ pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {IQuoter} from "../../src/interfaces/IQuoter.sol";
-import {ICLQuoter} from "../../src/pool-cl/interfaces/ICLQuoter.sol";
-import {CLQuoter} from "../../src/pool-cl/lens/CLQuoter.sol";
-import {LiquidityAmounts} from "../../src/pool-cl/libraries/LiquidityAmounts.sol";
+import {IQuoter} from "src/interfaces/IQuoter.sol";
+import {ICLQuoter} from "src/pool-cl/interfaces/ICLQuoter.sol";
+import {CLQuoter} from "src/pool-cl/lens/CLQuoter.sol";
+import {LiquidityAmounts} from "src/pool-cl/libraries/LiquidityAmounts.sol";
 import {MockERC20} from "solmate/src/test/utils/mocks/MockERC20.sol";
 import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
 import {SafeCast} from "v4-core/src/libraries/SafeCast.sol";
@@ -21,8 +21,8 @@ import {ICLPoolManager} from "v4-core/src/interfaces/ICLPoolManager.sol";
 import {CLPoolManagerRouter} from "v4-core/test/helpers/CLPoolManagerRouter.sol";
 import {Currency, CurrencyLibrary} from "v4-core/src/types/Currency.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
-import {PathKey} from "../../src/libraries/PathKey.sol";
-import {QuoterRevert} from "../../src/libraries/QuoterRevert.sol";
+import {PathKey} from "src/libraries/PathKey.sol";
+import {QuoterRevert} from "src/libraries/QuoterRevert.sol";
 
 contract CLQuoterTest is Test, Deployers {
     using SafeCast for *;

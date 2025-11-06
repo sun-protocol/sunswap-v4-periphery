@@ -18,13 +18,13 @@ import {Constants} from "v4-core/test/helpers/Constants.sol";
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
-import {ActionConstants} from "../../../src/libraries/ActionConstants.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
+import {ActionConstants} from "src/libraries/ActionConstants.sol";
+import {Actions} from "src/libraries/Actions.sol";
 
 import {LiquidityFuzzers} from "../shared/fuzz/LiquidityFuzzers.sol";
-import {Planner, Plan} from "../../../src/libraries/Planner.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
 
 contract ExecuteTest is Test, PosmTestSetup, LiquidityFuzzers {

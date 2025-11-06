@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity ^0.8.20;
 
-import "../../src/base/Multicall.sol";
+import "src/base/Multicall.sol";
 
 /// @dev If MockMulticall is to PositionManager, then RevertContract is to PoolManager
 contract RevertContract {

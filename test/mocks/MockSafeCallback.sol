@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import {IVault} from "v4-core/src/PoolManager.sol";
 
-import "../../src/base/SafeCallback.sol";
+import "src/base/SafeCallback.sol";
 
 contract MockSafeCallback is SafeCallback {
     constructor(IVault _vault) SafeCallback(_vault) {}

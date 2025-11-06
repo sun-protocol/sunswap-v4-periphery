@@ -7,13 +7,13 @@ import {BalanceDelta, toBalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
 import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {LiquidityAmounts} from "v4-core/test/helpers/LiquidityAmounts.sol";
-import {SafeCastTemp} from "../../../src/libraries/SafeCast.sol";
+import {SafeCastTemp} from "src/libraries/SafeCast.sol";
 
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
-import {Planner, Plan} from "../../../src/libraries/Planner.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 import {HookSavesDelta} from "./HookSavesDelta.sol";
-import {ICLPositionDescriptor} from "../../../src/pool-cl/interfaces/ICLPositionDescriptor.sol";
+import {ICLPositionDescriptor} from "src/pool-cl/interfaces/ICLPositionDescriptor.sol";
 
 abstract contract CLLiquidityOperations is CommonBase {
     using SafeCastTemp for uint256;

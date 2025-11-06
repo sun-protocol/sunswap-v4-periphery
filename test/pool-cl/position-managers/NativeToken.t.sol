@@ -15,20 +15,20 @@ import {FixedPointMathLib} from "solmate/src/utils/FixedPointMathLib.sol";
 import {IVault} from "v4-core/src/interfaces/IVault.sol";
 import {CLPosition} from "v4-core/src/libraries/CLPosition.sol";
 import {SafeCast} from "v4-core/src/libraries/SafeCast.sol";
-import {SafeCastTemp} from "../../../src/libraries/SafeCast.sol";
+import {SafeCastTemp} from "src/libraries/SafeCast.sol";
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {IERC721} from "@openzeppelin/contracts/interfaces/IERC721.sol";
 
-import {CLPositionManager} from "../../../src/pool-cl/CLPositionManager.sol";
-import {DeltaResolver} from "../../../src/base/DeltaResolver.sol";
-import {ICLPositionManager} from "../../../src/pool-cl/interfaces/ICLPositionManager.sol";
-import {Actions} from "../../../src/libraries/Actions.sol";
-import {Planner, Plan} from "../../../src/libraries/Planner.sol";
+import {CLPositionManager} from "src/pool-cl/CLPositionManager.sol";
+import {DeltaResolver} from "src/base/DeltaResolver.sol";
+import {ICLPositionManager} from "src/pool-cl/interfaces/ICLPositionManager.sol";
+import {Actions} from "src/libraries/Actions.sol";
+import {Planner, Plan} from "src/libraries/Planner.sol";
 import {FeeMath} from "../shared/FeeMath.sol";
 import {PosmTestSetup} from "../shared/PosmTestSetup.sol";
-import {ActionConstants} from "../../../src/libraries/ActionConstants.sol";
+import {ActionConstants} from "src/libraries/ActionConstants.sol";
 import {MockCLSubscriber} from "../mocks/MockCLSubscriber.sol";
 import {LiquidityFuzzers} from "../shared/fuzz/LiquidityFuzzers.sol";
 
@@ -70,18 +70,24 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
     function test_fuzz_mint_native(ICLPoolManager.ModifyLiquidityParams memory params) public {
         params = createFuzzyTwoSidedLiquidityParams(nativeKey, params, SQRT_RATIO_1_1);
 
-        uint256 liquidityToAdd =
-            params.liquidityDelta < 0 ? uint256(-params.liquidityDelta) : uint256(params.liquidityDelta);
+        uint256 liquidityToAdd = params.liquidityDelta < 0
+            ? uint256(-params.liquidityDelta)
+            : uint256(params.liquidityDelta);
 
         uint256 balance0Before = currency0.balanceOfSelf();
         uint256 balance1Before = currency1.balanceOfSelf();
 
         uint256 tokenId = lpm.nextTokenId();
         bytes memory calls = getMintEncoded(
-            nativeKey, params.tickLower, params.tickUpper, liquidityToAdd, ActionConstants.MSG_SENDER, ZERO_BYTES
+            nativeKey,
+            params.tickLower,
+            params.tickUpper,
+            liquidityToAdd,
+            ActionConstants.MSG_SENDER,
+            ZERO_BYTES
         );
 
-        (uint256 amount0,) = LiquidityAmounts.getAmountsForLiquidity(
+        (uint256 amount0, ) = LiquidityAmounts.getAmountsForLiquidity(
             SQRT_RATIO_1_1,
             TickMath.getSqrtRatioAtTick(params.tickLower),
             TickMath.getSqrtRatioAtTick(params.tickUpper),
@@ -102,8 +108,9 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
     function test_fuzz_mint_native_excess_withClose(ICLPoolManager.ModifyLiquidityParams memory params) public {
         params = createFuzzyTwoSidedLiquidityParams(nativeKey, params, SQRT_RATIO_1_1);
 
-        uint256 liquidityToAdd =
-            params.liquidityDelta < 0 ? uint256(-params.liquidityDelta) : uint256(params.liquidityDelta);
+        uint256 liquidityToAdd = params.liquidityDelta < 0
+            ? uint256(-params.liquidityDelta)
+            : uint256(params.liquidityDelta);
 
         uint256 balance0Before = currency0.balanceOfSelf();
         uint256 balance1Before = currency1.balanceOfSelf();
@@ -131,7 +138,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         bytes memory calls = planner.encode();
 
-        (uint256 amount0,) = LiquidityAmounts.getAmountsForLiquidity(
+        (uint256 amount0, ) = LiquidityAmounts.getAmountsForLiquidity(
             SQRT_RATIO_1_1,
             TickMath.getSqrtRatioAtTick(params.tickLower),
             TickMath.getSqrtRatioAtTick(params.tickUpper),
@@ -154,8 +161,9 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
     function test_fuzz_mint_native_excess_withSettlePair(ICLPoolManager.ModifyLiquidityParams memory params) public {
         params = createFuzzyTwoSidedLiquidityParams(nativeKey, params, SQRT_RATIO_1_1);
 
-        uint256 liquidityToAdd =
-            params.liquidityDelta < 0 ? uint256(-params.liquidityDelta) : uint256(params.liquidityDelta);
+        uint256 liquidityToAdd = params.liquidityDelta < 0
+            ? uint256(-params.liquidityDelta)
+            : uint256(params.liquidityDelta);
 
         uint256 balance0Before = currency0.balanceOfSelf();
         uint256 balance1Before = currency1.balanceOfSelf();
@@ -182,7 +190,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         bytes memory calls = planner.encode();
 
-        (uint256 amount0,) = LiquidityAmounts.getAmountsForLiquidity(
+        (uint256 amount0, ) = LiquidityAmounts.getAmountsForLiquidity(
             SQRT_RATIO_1_1,
             TickMath.getSqrtRatioAtTick(params.tickLower),
             TickMath.getSqrtRatioAtTick(params.tickUpper),
@@ -208,8 +216,9 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         params = createFuzzyTwoSidedLiquidityParams(nativeKey, params, SQRT_RATIO_1_1);
 
-        uint256 liquidityToAdd =
-            params.liquidityDelta < 0 ? uint256(-params.liquidityDelta) : uint256(params.liquidityDelta);
+        uint256 liquidityToAdd = params.liquidityDelta < 0
+            ? uint256(-params.liquidityDelta)
+            : uint256(params.liquidityDelta);
 
         uint256 tokenId = lpm.nextTokenId();
         mintWithNative(
@@ -242,10 +251,14 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         // TODO: slightly off by 1 bip (0.0001%)
         assertApproxEqRel(
-            currency0.balanceOfSelf(), balance0BeforeBurn + uint256(uint128(deltaDecrease.amount0())), 0.0001e18
+            currency0.balanceOfSelf(),
+            balance0BeforeBurn + uint256(uint128(deltaDecrease.amount0())),
+            0.0001e18
         );
         assertApproxEqRel(
-            currency1.balanceOfSelf(), balance1BeforeBurn + uint256(uint128(deltaDecrease.amount1())), 0.0001e18
+            currency1.balanceOfSelf(),
+            balance1BeforeBurn + uint256(uint128(deltaDecrease.amount1())),
+            0.0001e18
         );
 
         // OZ 721 will revert if the token does not exist
@@ -266,8 +279,9 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         params = createFuzzyTwoSidedLiquidityParams(nativeKey, params, SQRT_RATIO_1_1);
 
-        uint256 liquidityToAdd =
-            params.liquidityDelta < 0 ? uint256(-params.liquidityDelta) : uint256(params.liquidityDelta);
+        uint256 liquidityToAdd = params.liquidityDelta < 0
+            ? uint256(-params.liquidityDelta)
+            : uint256(params.liquidityDelta);
 
         uint256 tokenId = lpm.nextTokenId();
         mintWithNative(
@@ -293,9 +307,10 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
         uint256 numDeltas = hook.numberDeltasReturned();
         Plan memory planner = Planner.init();
         planner.add(
-            Actions.CL_BURN_POSITION, abi.encode(tokenId, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
+            Actions.CL_BURN_POSITION,
+            abi.encode(tokenId, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey, address(this));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey);
         lpm.modifyLiquidities(calls, _deadline);
         // No decrease/modifyLiq call will actually happen on the call to burn so the deltas array will be the same length.
         assertEq(numDeltas, hook.numberDeltasReturned());
@@ -305,10 +320,14 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         // TODO: slightly off by 1 bip (0.0001%)
         assertApproxEqRel(
-            currency0.balanceOfSelf(), balance0BeforeBurn + uint256(uint128(deltaDecrease.amount0())), 0.0001e18
+            currency0.balanceOfSelf(),
+            balance0BeforeBurn + uint256(uint128(deltaDecrease.amount0())),
+            0.0001e18
         );
         assertApproxEqRel(
-            currency1.balanceOfSelf(), balance1BeforeBurn + uint256(uint128(deltaDecrease.amount1())), 0.0001e18
+            currency1.balanceOfSelf(),
+            balance1BeforeBurn + uint256(uint128(deltaDecrease.amount1())),
+            0.0001e18
         );
 
         // OZ 721 will revert if the token does not exist
@@ -329,8 +348,9 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         params = createFuzzyTwoSidedLiquidityParams(nativeKey, params, SQRT_RATIO_1_1);
 
-        uint256 liquidityToAdd =
-            params.liquidityDelta < 0 ? uint256(-params.liquidityDelta) : uint256(params.liquidityDelta);
+        uint256 liquidityToAdd = params.liquidityDelta < 0
+            ? uint256(-params.liquidityDelta)
+            : uint256(params.liquidityDelta);
 
         uint256 tokenId = lpm.nextTokenId();
         mintWithNative(
@@ -358,10 +378,14 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         // TODO: slightly off by 1 bip (0.0001%)
         assertApproxEqRel(
-            currency0.balanceOfSelf(), balance0BeforeBurn + uint256(uint128(deltaBurn.amount0())), 0.0001e18
+            currency0.balanceOfSelf(),
+            balance0BeforeBurn + uint256(uint128(deltaBurn.amount0())),
+            0.0001e18
         );
         assertApproxEqRel(
-            currency1.balanceOfSelf(), balance1BeforeBurn + uint256(uint128(deltaBurn.amount1())), 0.0001e18
+            currency1.balanceOfSelf(),
+            balance1BeforeBurn + uint256(uint128(deltaBurn.amount1())),
+            0.0001e18
         );
 
         // OZ 721 will revert if the token does not exist
@@ -382,8 +406,9 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         params = createFuzzyTwoSidedLiquidityParams(nativeKey, params, SQRT_RATIO_1_1);
 
-        uint256 liquidityToAdd =
-            params.liquidityDelta < 0 ? uint256(-params.liquidityDelta) : uint256(params.liquidityDelta);
+        uint256 liquidityToAdd = params.liquidityDelta < 0
+            ? uint256(-params.liquidityDelta)
+            : uint256(params.liquidityDelta);
 
         uint256 tokenId = lpm.nextTokenId();
         mintWithNative(
@@ -405,9 +430,10 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         Plan memory planner = Planner.init();
         planner.add(
-            Actions.CL_BURN_POSITION, abi.encode(tokenId, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
+            Actions.CL_BURN_POSITION,
+            abi.encode(tokenId, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey, address(this));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey);
         lpm.modifyLiquidities(calls, _deadline);
         BalanceDelta deltaBurn = getLastDelta();
 
@@ -416,10 +442,14 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
 
         // TODO: slightly off by 1 bip (0.0001%)
         assertApproxEqRel(
-            currency0.balanceOfSelf(), balance0BeforeBurn + uint256(uint128(deltaBurn.amount0())), 0.0001e18
+            currency0.balanceOfSelf(),
+            balance0BeforeBurn + uint256(uint128(deltaBurn.amount0())),
+            0.0001e18
         );
         assertApproxEqRel(
-            currency1.balanceOfSelf(), balance1BeforeBurn + uint256(uint128(deltaBurn.amount1())), 0.0001e18
+            currency1.balanceOfSelf(),
+            balance1BeforeBurn + uint256(uint128(deltaBurn.amount1())),
+            0.0001e18
         );
 
         // OZ 721 will revert if the token does not exist
@@ -455,7 +485,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
         uint256 balance1Before = currency1.balanceOfSelf();
 
         // calculate how much native token is required for the liquidity increase (doubling the liquidity)
-        (uint256 amount0,) = LiquidityAmounts.getAmountsForLiquidity(
+        (uint256 amount0, ) = LiquidityAmounts.getAmountsForLiquidity(
             SQRT_RATIO_1_1,
             TickMath.getSqrtRatioAtTick(params.tickLower),
             TickMath.getSqrtRatioAtTick(params.tickUpper),
@@ -502,7 +532,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
         uint256 balance1Before = currency1.balanceOfSelf();
 
         // calculate how much native token is required for the liquidity increase (doubling the liquidity)
-        (uint256 amount0,) = LiquidityAmounts.getAmountsForLiquidity(
+        (uint256 amount0, ) = LiquidityAmounts.getAmountsForLiquidity(
             SQRT_RATIO_1_1,
             TickMath.getSqrtRatioAtTick(params.tickLower),
             TickMath.getSqrtRatioAtTick(params.tickUpper),
@@ -545,14 +575,20 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
         // mint the position with native token liquidity
         uint256 tokenId = lpm.nextTokenId();
         mintWithNative(
-            SQRT_RATIO_1_1, nativeKey, params.tickLower, params.tickUpper, liquidityToAdd, address(this), ZERO_BYTES
+            SQRT_RATIO_1_1,
+            nativeKey,
+            params.tickLower,
+            params.tickUpper,
+            liquidityToAdd,
+            address(this),
+            ZERO_BYTES
         );
 
         uint256 balance0Before = address(this).balance;
         uint256 balance1Before = currency1.balanceOfSelf();
 
         // calculate how much native token is required for the liquidity increase (doubling the liquidity)
-        (uint256 amount0,) = LiquidityAmounts.getAmountsForLiquidity(
+        (uint256 amount0, ) = LiquidityAmounts.getAmountsForLiquidity(
             SQRT_RATIO_1_1,
             TickMath.getSqrtRatioAtTick(params.tickLower),
             TickMath.getSqrtRatioAtTick(params.tickUpper),
@@ -605,7 +641,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
         uint256 balance1Before = currency1.balanceOfSelf();
 
         // decrease liquidity and receive native tokens
-        (uint256 amount0,) = LiquidityAmounts.getAmountsForLiquidity(
+        (uint256 amount0, ) = LiquidityAmounts.getAmountsForLiquidity(
             SQRT_RATIO_1_1,
             TickMath.getSqrtRatioAtTick(params.tickLower),
             TickMath.getSqrtRatioAtTick(params.tickUpper),
@@ -646,7 +682,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
         uint256 balance1Before = currency1.balanceOfSelf();
 
         // decrease liquidity and receive native tokens
-        (uint256 amount0,) = LiquidityAmounts.getAmountsForLiquidity(
+        (uint256 amount0, ) = LiquidityAmounts.getAmountsForLiquidity(
             SQRT_RATIO_1_1,
             TickMath.getSqrtRatioAtTick(params.tickLower),
             TickMath.getSqrtRatioAtTick(params.tickUpper),
@@ -657,7 +693,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
             Actions.CL_DECREASE_LIQUIDITY,
             abi.encode(tokenId, decreaseLiquidityDelta, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey, address(this));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey);
         lpm.modifyLiquidities(calls, _deadline);
         BalanceDelta delta = getLastDelta();
 
@@ -727,7 +763,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
             Actions.CL_DECREASE_LIQUIDITY,
             abi.encode(tokenId, 0, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey, address(this));
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey);
         lpm.modifyLiquidities(calls, _deadline);
         BalanceDelta delta = getLastDelta();
 
@@ -772,7 +808,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
         uint256 aliceBalance0Before = currency0.balanceOf(alice);
         uint256 aliceBalance1Before = currency1.balanceOf(alice);
 
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey, alice);
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey);
         lpm.modifyLiquidities(calls, _deadline);
         BalanceDelta delta = getLastDelta();
 
@@ -815,7 +851,7 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
             abi.encode(tokenId, 0, MIN_SLIPPAGE_DECREASE, MIN_SLIPPAGE_DECREASE, ZERO_BYTES)
         );
 
-        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey, ActionConstants.MSG_SENDER);
+        bytes memory calls = planner.finalizeModifyLiquidityWithTakePair(nativeKey);
         lpm.modifyLiquidities(calls, _deadline);
         BalanceDelta delta = getLastDelta();
 
@@ -832,7 +868,14 @@ contract NativeTokenTest is Test, PosmTestSetup, LiquidityFuzzers {
         plan.add(
             Actions.CL_MINT_POSITION,
             abi.encode(
-                nativeKey, -60, 60, 100e18, MAX_SLIPPAGE_INCREASE, MAX_SLIPPAGE_INCREASE, address(this), ZERO_BYTES
+                nativeKey,
+                -60,
+                60,
+                100e18,
+                MAX_SLIPPAGE_INCREASE,
+                MAX_SLIPPAGE_INCREASE,
+                address(this),
+                ZERO_BYTES
             )
         );
         plan.add(Actions.CLOSE_CURRENCY, abi.encode(nativeKey.currency0));
