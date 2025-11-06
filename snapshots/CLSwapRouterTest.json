@@ -1,6 +1,6 @@
 {
-  "testExactInputSingle_gas": "124953",
-  "testExactInput_gas": "182511",
-  "testExactOutputSingle_gas": "124538",
-  "testExactOutput_gas": "181309"
+  "testExactInputSingle_gas": "107817",
+  "testExactInput_gas": "165376",
+  "testExactOutputSingle_gas": "107402",
+  "testExactOutput_gas": "164174"
 }
