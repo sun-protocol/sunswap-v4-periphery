@@ -13,6 +13,7 @@ import {DeltaResolver} from "./base/DeltaResolver.sol";
 import {Actions} from "./libraries/Actions.sol";
 import {CLCalldataDecoder} from "./pool-cl/libraries/CLCalldataDecoder.sol";
 import {CLRouterBase} from "./pool-cl/CLRouterBase.sol";
+import {ActionConstants} from "./libraries/ActionConstants.sol";
 
 /// @title V4Router
 /// @notice Abstract contract that contains all internal logic needed for routing through Pancakeswap v4 pools
@@ -79,9 +80,9 @@ abstract contract V4Router is IV4Router, CLRouterBase, BaseActionsRouter {
     /// @param recipient The recipient or recipient-flag for the command
     /// @return output The resultant recipient for the command
     function mapRecipient(address recipient) internal view returns (address) {
-        if (recipient == msg.sender) {
+        if (recipient == ActionConstants.MSG_SENDER) {
             return msgSender();
-        } else if (recipient == address(this)) {
+        } else if (recipient == ActionConstants.ADDRESS_THIS) {
             return address(this);
         } else {
             revert IV4Router.InvalidRecipient(recipient);
