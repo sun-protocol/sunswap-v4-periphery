@@ -13,4 +13,7 @@ interface IV4Router is ICLRouterBase {
     error TooLittleReceived(uint256 minAmountOutReceived, uint256 amountReceived);
     /// @notice Emitted when an exactOutput is asked for more than its maxAmountIn
     error TooMuchRequested(uint256 maxAmountInRequested, uint256 amountRequested);
+
+    /// @notice Emitted when an invalid recipient address is provided
+    error InvalidRecipient(address recipient);
 }

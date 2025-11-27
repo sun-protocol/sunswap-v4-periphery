@@ -53,25 +53,38 @@ abstract contract V4Router is IV4Router, CLRouterBase, BaseActionsRouter {
                 _settle(currency, msgSender(), amount);
                 return;
             } else if (action == Actions.TAKE_ALL) {
-                (Currency currency, uint256 minAmount) = params.decodeCurrencyAndUint256();
+                (Currency currency, address recipient, uint256 minAmount) = params.decodeCurrencyAddressAndUint256();
                 uint256 amount = _getFullCredit(currency);
                 if (amount < minAmount) revert TooLittleReceived(minAmount, amount);
-                _take(currency, msgSender(), amount);
+                _take(currency, mapRecipient(recipient), amount);
                 return;
             } else if (action == Actions.SETTLE) {
                 (Currency currency, uint256 amount, bool payerIsUser) = params.decodeCurrencyUint256AndBool();
                 _settle(currency, _mapPayer(payerIsUser), _mapSettleAmount(amount, currency));
                 return;
             } else if (action == Actions.TAKE) {
-                (Currency currency, uint256 amount) = params.decodeCurrencyAndUint256();
-                _take(currency, msgSender(), _mapTakeAmount(amount, currency));
+                (Currency currency, address recipient, uint256 amount) = params.decodeCurrencyAddressAndUint256();
+                _take(currency, mapRecipient(recipient), _mapTakeAmount(amount, currency));
                 return;
             } else if (action == Actions.TAKE_PORTION) {
-                (Currency currency, uint256 bips) = params.decodeCurrencyAndUint256();
-                _take(currency, msgSender(), _getFullCredit(currency).calculatePortion(bips));
+                (Currency currency, address recipient, uint256 bips) = params.decodeCurrencyAddressAndUint256();
+                _take(currency, mapRecipient(recipient), _getFullCredit(currency).calculatePortion(bips));
                 return;
             }
         }
         revert UnsupportedAction(action);
+    }
+
+    /// @notice Calculates the recipient address for a command
+    /// @param recipient The recipient or recipient-flag for the command
+    /// @return output The resultant recipient for the command
+    function mapRecipient(address recipient) internal view returns (address) {
+        if (recipient == msg.sender) {
+            return msgSender();
+        } else if (recipient == address(this)) {
+            return address(this);
+        } else {
+            revert IV4Router.InvalidRecipient(recipient);
+        }
     }
 }
