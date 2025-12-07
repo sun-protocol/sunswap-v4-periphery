@@ -22,16 +22,15 @@ fs_permissions = [
 gas_limit = "300000000"
 
 remappings = [
-    'forge-gas-snapshot/=lib/forge-gas-snapshot/src/',
     'pancake-create3-factory/=lib/pancake-create3-factory/',
     'src/=contracts/',
-    'v4-core/=lib/infinity-core/',
-    'ds-test/=lib/infinity-core/lib/forge-std/lib/ds-test/src/',
-    'forge-std/=lib/infinity-core/lib/forge-std/src/',
-    'openzeppelin-contracts/=lib/infinity-core/lib/openzeppelin-contracts/',
-    'solmate/=lib/infinity-core/lib/solmate/',
-    'permit2/=lib/permit2',
-    'v4-core/=lib/infinity-core/'
+    'v4-core/=lib/v4-core/',
+    'v4-core/src/=lib/v4-core/contracts/',
+    'ds-test/=lib/forge-std/lib/ds-test/src/',
+    'forge-std/=lib/forge-std/src/',
+    '@openzeppelin/=lib/openzeppelin-contracts/',
+    'solmate/=lib/solmate/',
+    'permit2/src=lib/sunswap-permit2/contracts'
 ]
 
 # added due to v1.0 foundry
