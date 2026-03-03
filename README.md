@@ -2,20 +2,33 @@
 
 SunSwap V4 Periphery is the periphery contracts repository of the SunSwap V4 protocol. It is built with Hardhat and Foundry, and supports development, testing, and deployment on Tron networks.
 
+## About
+
+SunSwap V4 Periphery provides the higher-level contracts, routers, and utilities that simplify interaction with the SunSwap V4 Core.  
+While the Core contracts implement the fundamental AMM logic and state management, the Periphery contracts are designed to make these operations more accessible for developers, integrators, and end users.
+
+Key components include:
+
+- **SwapRouter**: handles single-hop and multi-hop swaps across pools.
+- **Position Manager**: manages liquidity positions, enabling minting, burning, and fee collection.
+- **Helper libraries**: provide utilities for approvals, pool interactions, and transaction execution.
+
+Together, the Periphery contracts act as the user-facing layer of SunSwap V4, bridging low-level protocol mechanics with wallets, dApps, and DeFi platforms. This design ensures that developers can integrate advanced AMM features without dealing directly with the complexity of Core contracts.
+
 ## Deployments
 
-| contract             | chain | address                            |
-| :------------------- | :---- | :--------------------------------- |
-| CLPositionDescriptor | TRON  | TVx4x5TBTD5tq8Qz8ssF4jMsFu5c65i3Br |
-|                      | NILE  | TWFWkGYT4MAf2kySVuEkJVyfz4121pPGhf |
-| CLPositionManager    | TRON  | TC8xQzPHfn5KceZV6s6GmZkBCFWWUoPXs1 |
-|                      | NILE  | TMTQ1BYo15aGgZXHcsBWXyae8bVaAdgfLP |
-| CLQuoter             | TRON  | TSupQTJWWoVpUqA7KGVYb8dB97n3civwiJ |
-|                      | NILE  | TWbsXKMjoDPjW4kjqv4qs5gbesnJ8wKref |
-| TickLens             | TRON  | TTuDCMoRaAKGL4V1gmJpmRKpDQz2ZCRQZL |
-|                      | NILE  | TFzuLipxEyB3McrYbvmtSvdpTo3A3RQPGv |
-| CLLPFeesHelper       | TRON  | TYKPrQ45J7w9E73JaTe9VWR7yAut8nkbgf |
-|                      | NILE  | TFzuLipxEyB3McrYbvmtSvdpTo3A3RQPGv |
+| contract             | chain        | address                            |
+| :------------------- | :----------- | :--------------------------------- |
+| CLPositionDescriptor | TRON Mainnet | TVx4x5TBTD5tq8Qz8ssF4jMsFu5c65i3Br |
+|                      | NILE Testnet | TWFWkGYT4MAf2kySVuEkJVyfz4121pPGhf |
+| CLPositionManager    | TRON Mainnet | TC8xQzPHfn5KceZV6s6GmZkBCFWWUoPXs1 |
+|                      | NILE Testnet | TMTQ1BYo15aGgZXHcsBWXyae8bVaAdgfLP |
+| CLQuoter             | TRON Mainnet | TSupQTJWWoVpUqA7KGVYb8dB97n3civwiJ |
+|                      | NILE Testnet | TWbsXKMjoDPjW4kjqv4qs5gbesnJ8wKref |
+| TickLens             | TRON Mainnet | TTuDCMoRaAKGL4V1gmJpmRKpDQz2ZCRQZL |
+|                      | NILE Testnet | TFzuLipxEyB3McrYbvmtSvdpTo3A3RQPGv |
+| CLLPFeesHelper       | TRON Mainnet | TYKPrQ45J7w9E73JaTe9VWR7yAut8nkbgf |
+|                      | NILE Testnet | TFzuLipxEyB3McrYbvmtSvdpTo3A3RQPGv |
 
 ## Compile, Test and Deploy
 
