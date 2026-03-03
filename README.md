@@ -2,8 +2,6 @@
 
 SunSwap V4 Periphery is the periphery contracts repository of the SunSwap V4 protocol. It is built with Hardhat and Foundry, and supports development, testing, and deployment on Tron networks.
 
-## About
-
 SunSwap V4 Periphery provides the higher-level contracts, routers, and utilities that simplify interaction with the SunSwap V4 Core.  
 While the Core contracts implement the fundamental AMM logic and state management, the Periphery contracts are designed to make these operations more accessible for developers, integrators, and end users.
 
