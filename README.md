@@ -13,6 +13,8 @@ Key components include:
 
 Together, the Periphery contracts act as the user-facing layer of SunSwap V4, bridging low-level protocol mechanics with wallets, dApps, and DeFi platforms. This design ensures that developers can integrate advanced AMM features without dealing directly with the complexity of Core contracts.
 
+---
+
 ## Deployments
 
 | contract             | chain        | address                            |
@@ -27,6 +29,7 @@ Together, the Periphery contracts act as the user-facing layer of SunSwap V4, br
 |                      | NILE Testnet | TFzuLipxEyB3McrYbvmtSvdpTo3A3RQPGv |
 | CLLPFeesHelper       | TRON Mainnet | TYKPrQ45J7w9E73JaTe9VWR7yAut8nkbgf |
 |                      | NILE Testnet | TFzuLipxEyB3McrYbvmtSvdpTo3A3RQPGv |
+
 
 ---
 
