@@ -28,6 +28,8 @@ Together, the Periphery contracts act as the user-facing layer of SunSwap V4, br
 | CLLPFeesHelper       | TRON Mainnet | TYKPrQ45J7w9E73JaTe9VWR7yAut8nkbgf |
 |                      | NILE Testnet | TFzuLipxEyB3McrYbvmtSvdpTo3A3RQPGv |
 
+---
+
 ## Compile, Test and Deploy
 
 ### Installation
@@ -74,3 +76,14 @@ After deployment, you can check deployed contract info at:
 ```text
 deployments/<network>/<contractName>.json
 ```
+
+---
+
+## Community & Support
+
+If you have questions about this project, find bugs, or would like to contribute, you can reach the team and community via:
+
+- [Telegram](https://t.me/SunIO_Defi)
+- [Twitter](https://twitter.com/defi_sunio)
+
+Please follow official announcements from these channels for the latest information on deployments, upgrades, and security notices.
