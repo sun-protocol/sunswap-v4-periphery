@@ -16,4 +16,8 @@ interface IV4Router is ICLRouterBase {
 
     /// @notice Emitted when an invalid recipient address is provided
     error InvalidRecipient(address recipient);
+
+    /// @notice Emitted when an exactOutput swap (or hop) delivers less than the requested amount, e.g. a
+    /// pool runs out of liquidity before the price limit. Exact output is all-or-nothing.
+    error ExactOutputUnfilled(uint256 amountOutRequested, uint256 amountOutReceived);
 }

@@ -559,6 +559,116 @@ contract CLSwapRouterTest is TokenFixture, Test {
         vm.snapshotGasLastCall("testExactOutput_gas");
     }
 
+    function testExactOutputSingle_revertsOnUnderfill() external {
+        ICLRouterBase.CLSwapExactOutputSingleParams memory params =
+            ICLRouterBase.CLSwapExactOutputSingleParams(poolKey0, true, 10 ether, type(uint128).max, bytes(""));
+
+        plan = plan.add(Actions.CL_SWAP_EXACT_OUT_SINGLE, abi.encode(params));
+        bytes memory data = _finalizeSwapToSender(currency0, currency1);
+
+        vm.expectRevert(abi.encodeWithSelector(IV4Router.ExactOutputUnfilled.selector, 10 ether, 5021655822772834910));
+        router.executeActions(data);
+    }
+
+    function testExactOutputSingle_oneForZero_revertsOnUnderfill() external {
+        ICLRouterBase.CLSwapExactOutputSingleParams memory params =
+            ICLRouterBase.CLSwapExactOutputSingleParams(poolKey0, false, 1 ether, type(uint128).max, bytes(""));
+
+        plan = plan.add(Actions.CL_SWAP_EXACT_OUT_SINGLE, abi.encode(params));
+        bytes memory data = _finalizeSwapToSender(currency1, currency0);
+
+        vm.expectRevert(abi.encodeWithSelector(IV4Router.ExactOutputUnfilled.selector, 1 ether, 49775942348678953));
+        router.executeActions(data);
+    }
+
+    function testExactOutput_revertsOnUnderfill_deliveringHop() external {
+        PathKey[] memory path = new PathKey[](2);
+        path[0] = _pathKey(currency2);
+        path[1] = _pathKey(currency1);
+
+        ICLRouterBase.CLSwapExactOutputParams memory params =
+            ICLRouterBase.CLSwapExactOutputParams(currency0, path, 1 ether, type(uint128).max);
+
+        plan = plan.add(Actions.CL_SWAP_EXACT_OUT, abi.encode(params));
+        bytes memory data = _finalizeSwapToSender(currency2, currency0);
+
+        vm.expectRevert(abi.encodeWithSelector(IV4Router.ExactOutputUnfilled.selector, 1 ether, 49775942348678953));
+        router.executeActions(data);
+    }
+
+    function testExactOutput_revertsOnIntermediateUnderfill_repeatedCurrency() external {
+        PathKey[] memory path = new PathKey[](3);
+        path[0] = _pathKey(currency1);
+        path[1] = _pathKey(currency0);
+        path[2] = _pathKey(currency1);
+
+        ICLRouterBase.CLSwapExactOutputParams memory params =
+            ICLRouterBase.CLSwapExactOutputParams(currency2, path, 10 ether, 11 ether);
+
+        plan = plan.add(Actions.CL_SWAP_EXACT_OUT, abi.encode(params));
+        bytes memory data = _finalizeSwapToSender(currency1, currency2);
+
+        vm.expectRevert(
+            abi.encodeWithSelector(IV4Router.ExactOutputUnfilled.selector, 10031093380150452359, 5021655822772834910)
+        );
+        router.executeActions(data);
+    }
+
+    function testExactOutputSingle_fullFillSucceeds() external {
+        uint256 amountOut = 1 ether;
+        uint256 balanceBefore = IERC20(Currency.unwrap(currency1)).balanceOf(address(this));
+        ICLRouterBase.CLSwapExactOutputSingleParams memory params = ICLRouterBase.CLSwapExactOutputSingleParams(
+            poolKey0, true, uint128(amountOut), type(uint128).max, bytes("")
+        );
+
+        plan = plan.add(Actions.CL_SWAP_EXACT_OUT_SINGLE, abi.encode(params));
+        bytes memory data = _finalizeSwapToSender(currency0, currency1);
+        router.executeActions(data);
+
+        assertEq(IERC20(Currency.unwrap(currency1)).balanceOf(address(this)) - balanceBefore, amountOut);
+        assertEq(IERC20(Currency.unwrap(currency0)).balanceOf(address(router)), 0);
+        assertEq(IERC20(Currency.unwrap(currency1)).balanceOf(address(router)), 0);
+    }
+
+    function testExactOutput_multiHop_oneForZero_fullFillSucceeds() external {
+        uint256 amountOut = 0.01 ether;
+        uint256 inputBefore = IERC20(Currency.unwrap(currency2)).balanceOf(address(this));
+        uint256 outputBefore = IERC20(Currency.unwrap(currency0)).balanceOf(address(this));
+        PathKey[] memory path = new PathKey[](2);
+        path[0] = _pathKey(currency2);
+        path[1] = _pathKey(currency1);
+
+        ICLRouterBase.CLSwapExactOutputParams memory params =
+            ICLRouterBase.CLSwapExactOutputParams(currency0, path, uint128(amountOut), type(uint128).max);
+
+        plan = plan.add(Actions.CL_SWAP_EXACT_OUT, abi.encode(params));
+        bytes memory data = _finalizeSwapToSender(currency2, currency0);
+        router.executeActions(data);
+
+        uint256 paid = inputBefore - IERC20(Currency.unwrap(currency2)).balanceOf(address(this));
+        assertEq(IERC20(Currency.unwrap(currency0)).balanceOf(address(this)) - outputBefore, amountOut);
+        assertEq(paid, 1006047259623890093);
+        assertEq(IERC20(Currency.unwrap(currency0)).balanceOf(address(router)), 0);
+        assertEq(IERC20(Currency.unwrap(currency1)).balanceOf(address(router)), 0);
+        assertEq(IERC20(Currency.unwrap(currency2)).balanceOf(address(router)), 0);
+    }
+
+    function _pathKey(Currency intermediateCurrency) internal pure returns (PathKey memory) {
+        return PathKey({
+            intermediateCurrency: intermediateCurrency,
+            fee: uint24(3000),
+            hooks: IHooks(address(0)),
+            hookData: new bytes(0),
+            parameters: bytes32(uint256(0x10000))
+        });
+    }
+
+    function _finalizeSwapToSender(Currency inputCurrency, Currency outputCurrency) internal returns (bytes memory) {
+        plan = plan.add(Actions.SETTLE_ALL, abi.encode(inputCurrency, type(uint256).max));
+        plan = plan.add(Actions.TAKE_ALL, abi.encode(outputCurrency, ActionConstants.MSG_SENDER, 0));
+        return plan.encode();
+    }
+
     // allow refund of ETH
     receive() external payable {}
 }
