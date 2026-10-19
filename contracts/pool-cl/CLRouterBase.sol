@@ -88,6 +88,7 @@ abstract contract CLRouterBase is ICLRouterBase, DeltaResolver {
     }
 
     function _swapExactOutput(CLSwapExactOutputParams calldata params) internal {
+        if (params.path.length == 0) revert IV4Router.InvalidPath();
         unchecked {
             // Caching for gas savings
             uint256 pathLength = params.path.length;

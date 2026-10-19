@@ -14,5 +14,5 @@ interface ISunSwapV3SwapCallback {
     /// @param amount1Delta The amount of token1 that was sent (negative) or must be received (positive) by the pool by
     /// the end of the swap. If positive, the callback must send that amount of token1 to the pool.
     /// @param data Any data passed through by the caller via the ISunSwapV3PoolActions#swap call
-    function sunSwapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external;
+    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data) external;
 }
