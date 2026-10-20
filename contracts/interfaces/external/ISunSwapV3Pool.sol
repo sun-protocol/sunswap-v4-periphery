@@ -41,7 +41,8 @@ interface ISunSwapV3Pool {
     function tickBitmap(int16 wordPosition) external view returns (uint256);
 
     /// @notice Swap token0 for token1, or token1 for token0
-    /// @dev The caller of this method receives a callback in the form of ISunSwapV3SwapCallback#pancakeV3SwapCallback
+    /// @dev The caller of this method receives a callback in the form of
+    /// ISunSwapV3SwapCallback #uniswapV3SwapCallback.
     /// @param recipient The address to receive the output of the swap
     /// @param zeroForOne The direction of the swap, true for token0 to token1, false for token1 to token0
     /// @param amountSpecified The amount of the swap, which implicitly configures the swap as exact input (positive), or exact output (negative)

@@ -61,7 +61,7 @@ contract MixedQuoter is IMixedQuoter, ISunSwapV3SwapCallback, Multicall {
      */
 
     /// @inheritdoc ISunSwapV3SwapCallback
-    function sunSwapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes memory data)
+    function uniswapV3SwapCallback(int256 amount0Delta, int256 amount1Delta, bytes calldata data)
         external
         view
         override

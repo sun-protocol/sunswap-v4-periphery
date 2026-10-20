@@ -23,14 +23,17 @@ gas_limit = "300000000"
 
 remappings = [
     'pancake-create3-factory/=lib/pancake-create3-factory/',
+    'lib/v4-core/:src/=lib/v4-core/contracts/',
     'src/=contracts/',
-    'v4-core/=lib/v4-core/',
+    'v4-core/test/=lib/v4-core/test/',
     'v4-core/src/=lib/v4-core/contracts/',
+    'v4-core/=lib/v4-core/',
     'ds-test/=lib/forge-std/lib/ds-test/src/',
     'forge-std/=lib/forge-std/src/',
     '@openzeppelin/=lib/openzeppelin-contracts/',
     'solmate/=lib/solmate/',
-    'permit2/src=lib/sunswap-permit2/contracts'
+    'permit2/src=lib/sunswap-permit2/contracts',
+    'permit2/test/=lib/sunswap-permit2/test/'
 ]
 
 # added due to v1.0 foundry

@@ -9,6 +9,8 @@ import {ICLRouterBase} from "../pool-cl/interfaces/ICLRouterBase.sol";
 /// @title IV4Router
 /// @notice Interface containing all the structs and errors for different v4 swap types
 interface IV4Router is ICLRouterBase {
+    /// @notice Emitted when a multi-hop swap is provided with an empty path
+    error InvalidPath();
     /// @notice Emitted when an exactInput swap does not receive its minAmountOut
     error TooLittleReceived(uint256 minAmountOutReceived, uint256 amountReceived);
     /// @notice Emitted when an exactOutput is asked for more than its maxAmountIn
@@ -16,4 +18,8 @@ interface IV4Router is ICLRouterBase {
 
     /// @notice Emitted when an invalid recipient address is provided
     error InvalidRecipient(address recipient);
+
+    /// @notice Emitted when an exactOutput swap (or hop) delivers less than the requested amount, e.g. a
+    /// pool runs out of liquidity before the price limit. Exact output is all-or-nothing.
+    error ExactOutputUnfilled(uint256 amountOutRequested, uint256 amountOutReceived);
 }

@@ -88,10 +88,10 @@ library Planner {
         if (takeRecipient == ActionConstants.MSG_SENDER) {
             // blindly settling and taking all, without slippage checks, isn't recommended in prod
             plan = plan.add(Actions.SETTLE_ALL, abi.encode(inputCurrency, type(uint256).max));
-            plan = plan.add(Actions.TAKE_ALL, abi.encode(outputCurrency, 0));
+            plan = plan.add(Actions.TAKE_ALL, abi.encode(outputCurrency, takeRecipient, 0));
         } else {
             plan = plan.add(Actions.SETTLE, abi.encode(inputCurrency, ActionConstants.OPEN_DELTA, true));
-            plan = plan.add(Actions.TAKE, abi.encode(outputCurrency, ActionConstants.OPEN_DELTA));
+            plan = plan.add(Actions.TAKE, abi.encode(outputCurrency, takeRecipient, ActionConstants.OPEN_DELTA));
         }
         return plan.encode();
     }
